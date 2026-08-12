@@ -44,4 +44,18 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+
+  /* Título com relevo/extrusão (efeito 3D), pra combinar com o estilo
+     "chapado em metal" do emblema — usa os mesmos tons de azul do
+     tailwind.config.js (blue-deep/night) empilhados em camadas. */
+  .heading-3d {
+    letter-spacing: 0.01em;
+    text-shadow:
+      1px 1px 0 #1739a8,
+      2px 2px 0 #1739a8,
+      3px 3px 0 #12266e,
+      4px 4px 0 #12266e,
+      5px 5px 0 #0c1a4d,
+      6px 6px 10px rgba(0, 0, 0, 0.45);
+  }
 }

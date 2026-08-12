@@ -20,8 +20,10 @@ module.exports = {
         spark: "#4FD6FF",
       },
       fontFamily: {
-        display: ["'Sora'", "sans-serif"],
-        body: ["'Inter'", "sans-serif"],
+        // Carregadas via next/font em app/layout.tsx (self-hosted, sem
+        // depender de link externo pro Google Fonts).
+        display: ["var(--font-display)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
       },
       boxShadow: {
         glow: "0 0 40px rgba(43, 92, 224, 0.45)",

@@ -1,5 +1,21 @@
 import type { Metadata } from "next";
+import { Rajdhani, Inter } from "next/font/google";
 import "./globals.css";
+
+// Fonte de destaque com cara técnica/racing (usada em títulos) — pesos
+// mais pesados pra aguentar o efeito 3D sem ficar fina/genérica.
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -16,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${rajdhani.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -44,19 +44,19 @@ export default async function HomePage() {
     <main>
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hero-night hero-grid relative overflow-hidden">
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 py-12 text-center sm:py-16">
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-8 text-center sm:py-12">
           <img
             src="/brand/logo.jpg"
             alt="MV Capacetes"
-            className="h-40 w-40 rounded-full shadow-glow ring-4 ring-blue-light/25 sm:h-48 sm:w-48"
+            className="h-32 w-32 rounded-full shadow-glow ring-4 ring-blue-light/25 sm:h-44 sm:w-44"
           />
-          <h1 className="font-display text-4xl font-bold sm:text-6xl">
+          <h1 className="heading-3d font-display text-5xl font-bold uppercase tracking-wide text-chrome sm:text-7xl">
             MV <span className="text-blue-light">Capacetes</span>
           </h1>
-          <p className="max-w-lg text-white/70 sm:text-lg">
-            Proteção, estilo e atitude para sua próxima viagem. Capacetes novos e usados, com procedência.
+          <p className="max-w-md text-sm text-white/70 sm:text-lg">
+            Proteção, estilo e atitude para sua próxima viagem.
           </p>
-          <Link href="/capacetes" className="btn-blue mt-2 rounded-full px-8 py-3.5 font-display font-bold text-white">
+          <Link href="/capacetes" className="btn-blue mt-1 rounded-full px-8 py-3 font-display font-bold text-white sm:py-3.5">
             Ver capacetes
           </Link>
         </div>
