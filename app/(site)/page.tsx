@@ -2,16 +2,19 @@ import Link from "next/link";
 import { getAllProdutos } from "@/lib/produtos-db";
 import { getVariantesByProdutos } from "@/lib/variantes-db";
 import { getAllCategorias } from "@/lib/categorias-db";
+import { getAllMarcas } from "@/lib/marcas-db";
 import { getBannersAtivos } from "@/lib/banners-db";
 import ProductCard from "@/components/ProductCard";
 import BannerCarousel from "@/components/BannerCarousel";
+import BrandCards from "@/components/BrandCards";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [todosProdutos, categorias, banners] = await Promise.all([
+  const [todosProdutos, categorias, marcas, banners] = await Promise.all([
     getAllProdutos(),
     getAllCategorias(),
+    getAllMarcas(),
     getBannersAtivos(),
   ]);
 
@@ -25,6 +28,12 @@ export default async function HomePage() {
   const categoriasComEstoque = categorias
     .map((c) => ({ ...c, total: produtos.filter((p) => p.categoria === c.slug).length }))
     .filter((c) => c.total > 0);
+
+  // Só entra no destaque de marcas quem realmente tem capacete disponível
+  // agora — deixa de aparecer sozinho quando o estoque zera.
+  const marcasComEstoque = marcas.filter((m) =>
+    produtos.some((p) => p.marca === m.nome && p.quantidadeEstoque > 0 && p.status === "ativo")
+  );
 
   return (
     <main>
@@ -119,6 +128,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── MARCAS ───────────────────────────────────────── */}
+      <BrandCards marcas={marcasComEstoque} />
 
       {/* ── CTA FINAL ────────────────────────────────────── */}
       <section className="hero-night relative overflow-hidden py-16 text-center text-white">

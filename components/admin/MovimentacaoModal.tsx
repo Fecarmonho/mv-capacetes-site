@@ -12,11 +12,25 @@ export interface AlvoMovimentacao {
   saldoAtual: number;
 }
 
-export default function MovimentacaoModal({ alvo, onClose }: { alvo: AlvoMovimentacao; onClose: () => void }) {
+export default function MovimentacaoModal({
+  alvo,
+  onClose,
+  titulo = "Movimentar estoque",
+  tipoInicial = "entrada",
+  motivoInicial,
+}: {
+  alvo: AlvoMovimentacao;
+  onClose: () => void;
+  titulo?: string;
+  tipoInicial?: TipoMovimentacao;
+  motivoInicial?: string;
+}) {
   const router = useRouter();
-  const [tipo, setTipo] = useState<TipoMovimentacao>("entrada");
+  const [tipo, setTipo] = useState<TipoMovimentacao>(tipoInicial);
   const [quantidade, setQuantidade] = useState(1);
-  const [motivo, setMotivo] = useState<string>(MOTIVOS_ENTRADA[0]);
+  const [motivo, setMotivo] = useState<string>(
+    motivoInicial ?? (tipoInicial === "entrada" ? MOTIVOS_ENTRADA[0] : MOTIVOS_SAIDA[0])
+  );
   const [observacao, setObservacao] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -74,7 +88,7 @@ export default function MovimentacaoModal({ alvo, onClose }: { alvo: AlvoMovimen
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <form onSubmit={handleSubmit} className="relative w-full max-w-sm rounded-t-3xl bg-white p-6 sm:rounded-2xl">
-        <p className="font-display text-lg font-bold text-ink">Movimentar estoque</p>
+        <p className="font-display text-lg font-bold text-ink">{titulo}</p>
         <p className="mt-1 text-sm text-ink/50">
           {alvo.produtoNome}
           {alvo.tamanhoLabel && ` — Tamanho ${alvo.tamanhoLabel}`}

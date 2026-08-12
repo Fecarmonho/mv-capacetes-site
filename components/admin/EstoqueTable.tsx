@@ -15,6 +15,16 @@ export default function EstoqueTable({
 }) {
   const [expandido, setExpandido] = useState<Record<string, boolean>>({});
   const [alvo, setAlvo] = useState<AlvoMovimentacao | null>(null);
+  const [modo, setModo] = useState<"movimentar" | "vender">("movimentar");
+
+  function abrirMovimentar(novoAlvo: AlvoMovimentacao) {
+    setModo("movimentar");
+    setAlvo(novoAlvo);
+  }
+  function abrirVender(novoAlvo: AlvoMovimentacao) {
+    setModo("vender");
+    setAlvo(novoAlvo);
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -48,12 +58,21 @@ export default function EstoqueTable({
                   Histórico
                 </Link>
                 {!temVariantes && (
-                  <button
-                    onClick={() => setAlvo({ produtoPaiId: p.slug, produtoNome: p.nome, saldoAtual: p.quantidadeEstoque })}
-                    className="rounded-full border border-blue/30 px-3 py-1.5 text-xs font-bold text-blue hover:bg-blue/5"
-                  >
-                    Movimentar
-                  </button>
+                  <>
+                    <button
+                      onClick={() => abrirVender({ produtoPaiId: p.slug, produtoNome: p.nome, saldoAtual: p.quantidadeEstoque })}
+                      disabled={p.quantidadeEstoque === 0}
+                      className="rounded-full border border-emerald-500/30 px-3 py-1.5 text-xs font-bold text-emerald-600 hover:bg-emerald-500/5 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Vender
+                    </button>
+                    <button
+                      onClick={() => abrirMovimentar({ produtoPaiId: p.slug, produtoNome: p.nome, saldoAtual: p.quantidadeEstoque })}
+                      className="rounded-full border border-blue/30 px-3 py-1.5 text-xs font-bold text-blue hover:bg-blue/5"
+                    >
+                      Movimentar
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -68,7 +87,22 @@ export default function EstoqueTable({
                       <span className="text-sm font-semibold text-ink">{v.estoque} un.</span>
                       <button
                         onClick={() =>
-                          setAlvo({
+                          abrirVender({
+                            produtoPaiId: p.slug,
+                            produtoNome: p.nome,
+                            varianteId: v.id,
+                            tamanhoLabel: v.tamanho,
+                            saldoAtual: v.estoque,
+                          })
+                        }
+                        disabled={v.estoque === 0}
+                        className="rounded-full border border-emerald-500/30 px-3 py-1.5 text-xs font-bold text-emerald-600 hover:bg-emerald-500/5 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        Vender
+                      </button>
+                      <button
+                        onClick={() =>
+                          abrirMovimentar({
                             produtoPaiId: p.slug,
                             produtoNome: p.nome,
                             varianteId: v.id,
@@ -89,7 +123,15 @@ export default function EstoqueTable({
         );
       })}
 
-      {alvo && <MovimentacaoModal alvo={alvo} onClose={() => setAlvo(null)} />}
+      {alvo && (
+        <MovimentacaoModal
+          alvo={alvo}
+          onClose={() => setAlvo(null)}
+          titulo={modo === "vender" ? "Registrar venda" : "Movimentar estoque"}
+          tipoInicial={modo === "vender" ? "saida" : "entrada"}
+          motivoInicial={modo === "vender" ? "Venda" : undefined}
+        />
+      )}
     </div>
   );
 }

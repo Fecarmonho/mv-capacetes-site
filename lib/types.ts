@@ -76,6 +76,8 @@ export interface Categoria {
 export interface Marca {
   slug: string;
   nome: string;
+  /** Logo da marca (base64), usado nos cards de "marcas em destaque" do site. */
+  logo?: string;
 }
 
 export interface Banner {

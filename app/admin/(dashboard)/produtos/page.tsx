@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { getAllProdutos } from "@/lib/produtos-db";
+import { getVariantesByProdutos } from "@/lib/variantes-db";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import StatusEstoqueBadge from "@/components/admin/StatusEstoqueBadge";
+import VenderButton from "@/components/admin/VenderButton";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +13,7 @@ function formatBRL(valor: number) {
 
 export default async function AdminProdutosPage() {
   const produtos = await getAllProdutos();
+  const variantesPorProduto = await getVariantesByProdutos(produtos.map((p) => p.slug));
 
   return (
     <div>
@@ -39,9 +42,17 @@ export default async function AdminProdutosPage() {
                 </div>
                 <p className="mt-2 font-medium text-ink">{p.nome}</p>
                 <p className="mt-1 text-sm text-ink/50">{p.marca} · {formatBRL(p.precoPromocional ?? p.preco)}</p>
-                <div className="mt-3 flex items-center gap-4 border-t border-ink/5 pt-3">
+                <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-ink/5 pt-3">
                   <Link href={`/admin/produtos/${p.slug}`} className="text-sm font-semibold text-blue">Editar</Link>
                   <DeleteProductButton slug={p.slug} nome={p.nome} />
+                  <div className="ml-auto">
+                    <VenderButton
+                      produtoSlug={p.slug}
+                      produtoNome={p.nome}
+                      quantidadeEstoque={p.quantidadeEstoque}
+                      variantes={variantesPorProduto.get(p.slug)}
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -75,7 +86,13 @@ export default async function AdminProdutosPage() {
                       <StatusEstoqueBadge estoque={p.quantidadeEstoque} minimo={p.quantidadeMinima} />
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex justify-end gap-3">
+                      <div className="flex items-center justify-end gap-3">
+                        <VenderButton
+                          produtoSlug={p.slug}
+                          produtoNome={p.nome}
+                          quantidadeEstoque={p.quantidadeEstoque}
+                          variantes={variantesPorProduto.get(p.slug)}
+                        />
                         <Link href={`/admin/produtos/${p.slug}`} className="font-semibold text-blue hover:underline">Editar</Link>
                         <DeleteProductButton slug={p.slug} nome={p.nome} />
                       </div>

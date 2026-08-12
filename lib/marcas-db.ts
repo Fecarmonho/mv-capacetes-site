@@ -16,6 +16,10 @@ export async function createMarca(marca: Marca): Promise<void> {
   await ref.set(marca);
 }
 
+export async function updateMarca(slug: string, dados: Partial<Pick<Marca, "nome" | "logo">>): Promise<void> {
+  await adminDb.collection(COLLECTION).doc(slug).update(dados);
+}
+
 export async function deleteMarca(slug: string): Promise<void> {
   await adminDb.collection(COLLECTION).doc(slug).delete();
 }
