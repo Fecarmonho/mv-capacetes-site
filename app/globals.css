@@ -34,4 +34,14 @@
   .badge-usado {
     @apply bg-steel/20 text-steel;
   }
+
+  /* Esconde a barra de rolagem dos carrosséis horizontais (o gesto de
+     arrastar/setas já dá o controle, a barra só polui visualmente). */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }

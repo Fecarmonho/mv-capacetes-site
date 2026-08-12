@@ -4,9 +4,10 @@ import { getVariantesByProdutos } from "@/lib/variantes-db";
 import { getAllCategorias } from "@/lib/categorias-db";
 import { getAllMarcas } from "@/lib/marcas-db";
 import { getBannersAtivos } from "@/lib/banners-db";
-import ProductCard from "@/components/ProductCard";
+import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
 import BrandCards from "@/components/BrandCards";
+import { Produto } from "@/lib/types";
 
 export const revalidate = 60;
 
@@ -21,9 +22,13 @@ export default async function HomePage() {
   const produtos = todosProdutos.filter((p) => p.status === "ativo" || p.status === "esgotado");
   const variantesPorProduto = await getVariantesByProdutos(produtos.map((p) => p.slug));
 
-  const destaques = produtos.filter((p) => p.destaque).slice(0, 6);
-  const novos = produtos.filter((p) => p.tipo === "novo").slice(0, 6);
-  const usados = produtos.filter((p) => p.tipo === "usado").slice(0, 6);
+  const destaques = produtos.filter((p) => p.destaque).slice(0, 10);
+  const novos = produtos.filter((p) => p.tipo === "novo").slice(0, 10);
+  const usados = produtos.filter((p) => p.tipo === "usado").slice(0, 10);
+
+  function comVariantes(lista: Produto[]) {
+    return lista.map((produto) => ({ produto, variantes: variantesPorProduto.get(produto.slug) }));
+  }
 
   const categoriasComEstoque = categorias
     .map((c) => ({ ...c, total: produtos.filter((p) => p.categoria === c.slug).length }))
@@ -86,10 +91,8 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl px-4 py-6">
           <p className="text-xs font-bold uppercase tracking-widest text-blue">Selecionados pra você</p>
           <h2 className="mt-2 font-display text-2xl font-bold text-ink sm:text-3xl">Capacetes em destaque</h2>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
-            {destaques.map((p) => (
-              <ProductCard key={p.slug} produto={p} variantes={variantesPorProduto.get(p.slug)} />
-            ))}
+          <div className="mt-6">
+            <ProductCarousel itens={comVariantes(destaques)} />
           </div>
         </section>
       )}
@@ -101,11 +104,7 @@ export default async function HomePage() {
             <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">Capacetes Novos</h2>
             <Link href="/capacetes?tipo=novo" className="text-sm font-semibold text-blue hover:underline">Ver todos</Link>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
-            {novos.map((p) => (
-              <ProductCard key={p.slug} produto={p} variantes={variantesPorProduto.get(p.slug)} />
-            ))}
-          </div>
+          <ProductCarousel itens={comVariantes(novos)} />
         </section>
       )}
 
@@ -120,11 +119,7 @@ export default async function HomePage() {
               </div>
               <Link href="/capacetes?tipo=usado" className="text-sm font-semibold text-blue hover:underline">Ver todos</Link>
             </div>
-            <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
-              {usados.map((p) => (
-                <ProductCard key={p.slug} produto={p} variantes={variantesPorProduto.get(p.slug)} />
-              ))}
-            </div>
+            <ProductCarousel itens={comVariantes(usados)} />
           </div>
         </section>
       )}
