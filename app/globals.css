@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper font-body text-ink antialiased;
+  }
+}
+
+@layer components {
+  /* Botão de ação principal — gradiente azul da identidade da marca. */
+  .btn-blue {
+    @apply bg-gradient-to-r from-blue to-blue-deep bg-[length:160%_100%] bg-left transition-[background-position] duration-300 hover:bg-right;
+  }
+
+  /* Fundo escuro usado no header, hero e rodapé — mesmo tom do emblema. */
+  .hero-night {
+    @apply bg-night text-white;
+  }
+
+  /* Textura sutil de grade, só para dar profundidade ao fundo escuro. */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(91, 143, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91, 143, 255, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .badge-novo {
+    @apply bg-blue/15 text-blue-light;
+  }
+
+  .badge-usado {
+    @apply bg-steel/20 text-steel;
+  }
+}
