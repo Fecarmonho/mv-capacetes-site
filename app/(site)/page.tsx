@@ -44,8 +44,12 @@ export default async function HomePage() {
     <main>
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hero-night hero-grid relative overflow-hidden">
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-20 text-center sm:py-28">
-          <img src="/brand/logo.jpg" alt="MV Capacetes" className="h-28 w-28 rounded-full shadow-glow sm:h-36 sm:w-36" />
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 py-12 text-center sm:py-16">
+          <img
+            src="/brand/logo.jpg"
+            alt="MV Capacetes"
+            className="h-40 w-40 rounded-full shadow-glow ring-4 ring-blue-light/25 sm:h-48 sm:w-48"
+          />
           <h1 className="font-display text-4xl font-bold sm:text-6xl">
             MV <span className="text-blue-light">Capacetes</span>
           </h1>
