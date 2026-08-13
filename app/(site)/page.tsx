@@ -8,7 +8,7 @@ import { getConfiguracoes } from "@/lib/config-db";
 import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
 import MarqueeStrip from "@/components/MarqueeStrip";
-import BrandCards from "@/components/BrandCards";
+import CompreMarca from "@/components/CompreMarca";
 import { Produto } from "@/lib/types";
 
 export const revalidate = 60;
@@ -45,6 +45,10 @@ export default async function HomePage() {
 
   return (
     <main>
+      {/* ── COMPRE POR MARCA (primeira coisa da home: escolhe novo/usado
+          e a marca, direto pro catálogo já filtrado) ────────────────── */}
+      <CompreMarca marcas={marcasComEstoque} />
+
       {/* ── CARROSSEL (a 1ª tela é a marca; as demais são os banners
           cadastrados no admin) ──────────────────────────────────── */}
       <BannerCarousel banners={banners} />
@@ -113,9 +117,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* ── MARCAS ───────────────────────────────────────── */}
-      <BrandCards marcas={marcasComEstoque} />
 
       {/* ── QUEM SOMOS ───────────────────────────────────── */}
       {config.quemSomosHistoria && (
