@@ -84,6 +84,8 @@ export interface Banner {
   id: string;
   imagem: string;
   titulo?: string;
+  /** Linha curta abaixo do título, no estilo dos carrosséis de vitrine. */
+  descricao?: string;
   link?: string;
   ordem: number;
   ativo: boolean;

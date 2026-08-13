@@ -25,6 +25,7 @@ export default function BannerCard({
 }) {
   const router = useRouter();
   const [titulo, setTitulo] = useState(banner.titulo ?? "");
+  const [descricao, setDescricao] = useState(banner.descricao ?? "");
   const [link, setLink] = useState(banner.link ?? "");
   const [salvando, setSalvando] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +48,13 @@ export default function BannerCard({
   }
 
   function salvarTextos() {
-    handleAction(() => salvarBanner(banner.id, { titulo: titulo || undefined, link: link || undefined }));
+    handleAction(() =>
+      salvarBanner(banner.id, {
+        titulo: titulo || undefined,
+        descricao: descricao || undefined,
+        link: link || undefined,
+      })
+    );
   }
 
   function mover(direcao: "cima" | "baixo") {
@@ -79,6 +86,13 @@ export default function BannerCard({
           onBlur={salvarTextos}
           placeholder="Link (opcional)"
           className="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-blue focus:outline-none sm:w-40"
+        />
+        <input
+          value={descricao}
+          onChange={(e) => setDescricao(e.target.value)}
+          onBlur={salvarTextos}
+          placeholder="Descrição (opcional)"
+          className="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-blue focus:outline-none sm:w-48"
         />
       </div>
 

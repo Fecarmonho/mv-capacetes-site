@@ -23,6 +23,7 @@ module.exports = {
         // Carregadas via next/font em app/layout.tsx (self-hosted, sem
         // depender de link externo pro Google Fonts).
         display: ["var(--font-display)", "sans-serif"],
+        impact: ["var(--font-impact)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
       },
       boxShadow: {

@@ -8,6 +8,7 @@ export default function BannerForm() {
   const router = useRouter();
   const [imagem, setImagem] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [link, setLink] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,11 +42,18 @@ export default function BannerForm() {
       const response = await fetch("/api/admin/banners", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imagem, titulo: titulo || undefined, link: link || undefined, ativo: true }),
+        body: JSON.stringify({
+          imagem,
+          titulo: titulo || undefined,
+          descricao: descricao || undefined,
+          link: link || undefined,
+          ativo: true,
+        }),
       });
       if (!response.ok) throw new Error("Não foi possível salvar o banner.");
       setImagem(null);
       setTitulo("");
+      setDescricao("");
       setLink("");
       router.refresh();
     } catch (err) {
@@ -84,6 +92,11 @@ export default function BannerForm() {
           <input value={link} onChange={(e) => setLink(e.target.value)} placeholder="/capacetes" className={inputClass} />
         </label>
       </div>
+
+      <label className="block text-sm font-medium text-ink/80">
+        Descrição (opcional — linha curta abaixo do título)
+        <input value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Ex: Só até domingo, aproveite" className={inputClass} />
+      </label>
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 

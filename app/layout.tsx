@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { Rajdhani, Inter } from "next/font/google";
+import { Rajdhani, Anton, Inter } from "next/font/google";
 import "./globals.css";
 
-// Fonte de destaque com cara técnica/racing (usada em títulos) — pesos
-// mais pesados pra aguentar o efeito 3D sem ficar fina/genérica.
+// Fonte de destaque com cara técnica/racing — títulos de seção, UI do
+// admin, botões.
 const rajdhani = Rajdhani({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Fonte de impacto (condensada, bem pesada) — só pros títulos grandes do
+// carrossel, no estilo pôster que as vitrines de moto/moda costumam usar.
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-impact",
   display: "swap",
 });
 
@@ -32,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${rajdhani.variable} ${inter.variable}`}>
+    <html lang="pt-BR" className={`${rajdhani.variable} ${anton.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );
