@@ -71,12 +71,16 @@ function TelaBanner({ banner }: { banner: Banner }) {
       <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent sm:bg-gradient-to-r" />
 
       {temTexto && (
-        <div className="relative z-10 flex w-full max-w-6xl flex-col justify-end px-6 pb-8 sm:mx-auto sm:justify-center sm:pb-0 sm:pl-12 lg:pl-20">
-          <h2 className="max-w-md font-impact text-4xl uppercase leading-[0.9] tracking-wide text-white sm:text-6xl">
+        <div className="relative z-10 flex h-full w-full flex-col justify-end px-6 pb-8 sm:justify-center sm:pb-0 sm:pl-12 lg:pl-20">
+          <span className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-blue-light/40 bg-night/50 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-blue-light backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-light" />
+            Oferta
+          </span>
+          <h2 className="max-w-md font-impact text-4xl uppercase leading-[0.9] tracking-wide text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.5)] sm:text-6xl">
             {banner.titulo}
           </h2>
           {banner.descricao && (
-            <p className="mt-3 max-w-sm text-sm text-white/75 sm:text-base">{banner.descricao}</p>
+            <p className="mt-3 max-w-sm text-sm text-white/80 sm:text-base">{banner.descricao}</p>
           )}
           {banner.link && (
             <span className="btn-blue mt-5 inline-block w-fit rounded-full px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-white">
