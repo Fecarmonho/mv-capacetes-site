@@ -5,17 +5,13 @@ import Link from "next/link";
 import { Banner } from "@/lib/types";
 
 const AUTOPLAY_MS = 5000;
-// Todas as telas (marca e banners) seguem a mesma proporção 3:4 — é o que
-// mantém a altura igual entre elas sem que o flex "estique" uma tela pra
-// bater com a outra (e sem cortar nenhuma foto, já que não há altura fixa).
-const SLIDE_ASPECT = "aspect-[3/4]";
-
-/** Primeira tela do carrossel: a marca, com o mesmo tratamento visual
- * (anéis pulsantes, glow, badge) que o Radar de Ofertas usa na tela de
- * abertura, e o título grande no estilo "pôster de vitrine" do fitmgwear. */
+// A faixa de fundo (escura) sempre ocupa 100% da largura, pra não deixar
+// vão claro nas laterais em telas grandes — só a foto/conteúdo de dentro
+// é limitado (max-w-3xl), então em monitor largo o banner não vira uma
+// coluna gigante de 1600px de altura, mas o fundo continua contínuo.
 function TelaMarca() {
   return (
-    <div className={`hero-night hero-grid relative flex w-full shrink-0 items-center overflow-hidden ${SLIDE_ASPECT}`}>
+    <div className="hero-night hero-grid relative flex w-full shrink-0 items-center overflow-hidden">
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col-reverse items-center gap-6 px-6 py-6 sm:flex-row sm:justify-between sm:gap-8 sm:px-12 sm:py-10 lg:px-20">
         <div className="max-w-xl text-center sm:text-left">
           <span className="inline-flex items-center gap-2 rounded-full border border-blue/40 bg-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-light">
@@ -64,31 +60,33 @@ function TelaBanner({ banner }: { banner: Banner }) {
   const temTexto = Boolean(banner.titulo);
 
   return (
-    <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_ASPECT}`}>
-      <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain" />
-      {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
-          o texto ficar legível em cima de qualquer foto. */}
-      <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent sm:bg-gradient-to-r" />
+    <Wrapper href={banner.link ?? "#"} className="relative flex w-full shrink-0 items-center justify-center overflow-hidden bg-night">
+      <div className="relative aspect-[3/4] w-full max-w-3xl">
+        <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain" />
+        {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
+            o texto ficar legível em cima de qualquer foto. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent sm:bg-gradient-to-r" />
 
-      {temTexto && (
-        <div className="relative z-10 flex h-full w-full flex-col justify-end px-6 pb-8 sm:justify-center sm:pb-0 sm:pl-12 lg:pl-20">
-          <span className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-blue-light/40 bg-night/50 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-blue-light backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-light" />
-            Oferta
-          </span>
-          <h2 className="max-w-md font-impact text-4xl uppercase leading-[1.05] tracking-wide text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.5)] sm:text-6xl">
-            {banner.titulo}
-          </h2>
-          {banner.descricao && (
-            <p className="mt-3 max-w-sm text-sm text-white/80 sm:text-base">{banner.descricao}</p>
-          )}
-          {banner.link && (
-            <span className="btn-blue mt-5 inline-block w-fit rounded-full px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-white">
-              Ver oferta
+        {temTexto && (
+          <div className="relative z-10 flex h-full w-full flex-col justify-end px-6 pb-8 sm:justify-center sm:pb-0 sm:pl-12 lg:pl-20">
+            <span className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-blue-light/40 bg-night/50 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-blue-light backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-light" />
+              Oferta
             </span>
-          )}
-        </div>
-      )}
+            <h2 className="max-w-md font-impact text-4xl uppercase leading-[1.05] tracking-wide text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.5)] sm:text-6xl">
+              {banner.titulo}
+            </h2>
+            {banner.descricao && (
+              <p className="mt-3 max-w-sm text-sm text-white/80 sm:text-base">{banner.descricao}</p>
+            )}
+            {banner.link && (
+              <span className="btn-blue mt-5 inline-block w-fit rounded-full px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-white">
+                Ver oferta
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </Wrapper>
   );
 }
@@ -126,7 +124,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
   return (
     <div
-      className="relative overflow-hidden lg:mx-auto lg:max-w-3xl"
+      className="relative overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}

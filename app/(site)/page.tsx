@@ -4,6 +4,7 @@ import { getVariantesByProdutos } from "@/lib/variantes-db";
 import { getAllCategorias } from "@/lib/categorias-db";
 import { getAllMarcas } from "@/lib/marcas-db";
 import { getBannersAtivos } from "@/lib/banners-db";
+import { getConfiguracoes } from "@/lib/config-db";
 import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
 import BrandCards from "@/components/BrandCards";
@@ -12,11 +13,12 @@ import { Produto } from "@/lib/types";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [todosProdutos, categorias, marcas, banners] = await Promise.all([
+  const [todosProdutos, categorias, marcas, banners, config] = await Promise.all([
     getAllProdutos(),
     getAllCategorias(),
     getAllMarcas(),
     getBannersAtivos(),
+    getConfiguracoes(),
   ]);
 
   const produtos = todosProdutos.filter((p) => p.status === "ativo" || p.status === "esgotado");
@@ -112,6 +114,32 @@ export default async function HomePage() {
 
       {/* ── MARCAS ───────────────────────────────────────── */}
       <BrandCards marcas={marcasComEstoque} />
+
+      {/* ── QUEM SOMOS ───────────────────────────────────── */}
+      {config.quemSomosHistoria && (
+        <section className="mx-auto max-w-6xl px-4 py-14">
+          <p className="text-xs font-bold uppercase tracking-widest text-blue">Quem somos</p>
+          <div className="mt-6 flex flex-col items-center gap-6 rounded-3xl border border-ink/8 bg-white p-8 text-center shadow-card sm:flex-row sm:gap-10 sm:p-12 sm:text-left">
+            {config.quemSomosFoto ? (
+              <img
+                src={config.quemSomosFoto}
+                alt={config.quemSomosNome}
+                className="h-36 w-36 shrink-0 rounded-full object-cover shadow-glow sm:h-48 sm:w-48"
+              />
+            ) : (
+              <div className="flex h-36 w-36 shrink-0 items-center justify-center rounded-full border border-dashed border-ink/15 text-xs text-ink/30 sm:h-48 sm:w-48">
+                Foto em breve
+              </div>
+            )}
+            <div>
+              <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{config.quemSomosNome}</h2>
+              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink/60 sm:text-base">
+                {config.quemSomosHistoria}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── CTA FINAL ────────────────────────────────────── */}
       <section className="hero-night relative overflow-hidden py-16 text-center text-white">

@@ -99,6 +99,10 @@ export interface ConfiguracoesLoja {
   endereco: string;
   horarioAtendimento: string;
   textoInstitucional: string;
+  // Seção "Quem somos" do site — só aparece se tiver história cadastrada.
+  quemSomosNome: string;
+  quemSomosFoto?: string;
+  quemSomosHistoria: string;
 }
 
 export const MOTIVOS_ENTRADA = ["Compra", "Reposição", "Cadastro inicial", "Outros"] as const;

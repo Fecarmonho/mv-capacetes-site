@@ -12,6 +12,10 @@ const PADRAO: ConfiguracoesLoja = {
   endereco: "",
   horarioAtendimento: "",
   textoInstitucional: "",
+  quemSomosNome: "Mateus",
+  quemSomosFoto: undefined,
+  quemSomosHistoria:
+    "Mateus cresceu com moto na garagem de casa e nunca perdeu essa paixão. Hoje ele trabalha numa oficina de reparo de motos, lidando todo dia com peças, capacetes e detalhes que fazem a diferença entre proteção de verdade e enfeite. Foi ali, no dia a dia da oficina, que nasceu a MV Capacetes: a vontade de oferecer pra quem anda de moto o mesmo cuidado e olho técnico que ele usa em cada reparo — capacetes novos e usados escolhidos com a mesma exigência que ele teria pro seu próprio.",
 };
 
 export async function getConfiguracoes(): Promise<ConfiguracoesLoja> {
