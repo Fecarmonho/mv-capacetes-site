@@ -35,6 +35,7 @@ module.exports = {
         "float-slow": "float-slow 6s ease-in-out infinite",
         "fade-slide": "fade-slide 0.5s ease-out",
         "shrink-x": "shrink-x linear forwards",
+        blink: "blink 2s ease-in-out infinite",
       },
       keyframes: {
         "pulse-ring": {
@@ -52,6 +53,10 @@ module.exports = {
         "shrink-x": {
           "0%": { transform: "scaleX(0)" },
           "100%": { transform: "scaleX(1)" },
+        },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.35" },
         },
       },
     },
