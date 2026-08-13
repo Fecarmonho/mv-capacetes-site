@@ -63,14 +63,17 @@ function TelaBanner({ banner }: { banner: Banner }) {
 
   return (
     <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_HEIGHT}`}>
-      {/* Duas fotos no DOM, só uma visível por vez — a vertical (3:4) no
-          celular e a de paisagem (ou a mesma, se não tiver uma específica)
-          do sm: pra cima, cada uma do jeito que foi enviada, sem cortar. */}
+      {/* Duas fotos no DOM, só uma visível por vez. No celular a caixa é
+          3:4 igual a foto, então object-contain nunca corta nada. No
+          desktop a caixa é bem mais larga que qualquer foto (largura da
+          tela toda, altura fixa) — contain deixava vão nas laterais, então
+          aqui usa object-cover pra preencher, recortando só uma faixa fina
+          das bordas quando sobra. */}
       <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain sm:hidden" />
       <img
         src={banner.imagemDesktop || banner.imagem}
         alt={banner.titulo ?? ""}
-        className="absolute inset-0 hidden h-full w-full object-contain sm:block"
+        className="absolute inset-0 hidden h-full w-full object-cover sm:block"
       />
       {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
           o texto ficar legível em cima de qualquer foto. */}
