@@ -37,6 +37,7 @@ module.exports = {
         "fade-slide": "fade-slide 0.5s ease-out",
         "shrink-x": "shrink-x linear forwards",
         blink: "blink 2s ease-in-out infinite",
+        marquee: "marquee 22s linear infinite",
       },
       keyframes: {
         "pulse-ring": {
@@ -58,6 +59,10 @@ module.exports = {
         blink: {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.35" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
       },
     },

@@ -7,6 +7,7 @@ import { getBannersAtivos } from "@/lib/banners-db";
 import { getConfiguracoes } from "@/lib/config-db";
 import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
+import MarqueeStrip from "@/components/MarqueeStrip";
 import BrandCards from "@/components/BrandCards";
 import { Produto } from "@/lib/types";
 
@@ -47,6 +48,7 @@ export default async function HomePage() {
       {/* ── CARROSSEL (a 1ª tela é a marca; as demais são os banners
           cadastrados no admin) ──────────────────────────────────── */}
       <BannerCarousel banners={banners} />
+      <MarqueeStrip />
 
       {/* ── CATEGORIAS ───────────────────────────────────── */}
       {categoriasComEstoque.length > 0 && (
