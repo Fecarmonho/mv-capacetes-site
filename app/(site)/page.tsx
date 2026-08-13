@@ -45,14 +45,14 @@ export default async function HomePage() {
 
   return (
     <main>
-      {/* ── COMPRE POR MARCA (primeira coisa da home: escolhe novo/usado
-          e a marca, direto pro catálogo já filtrado) ────────────────── */}
-      <CompreMarca marcas={marcasComEstoque} />
-
       {/* ── CARROSSEL (a 1ª tela é a marca; as demais são os banners
           cadastrados no admin) ──────────────────────────────────── */}
       <BannerCarousel banners={banners} />
       <MarqueeStrip />
+
+      {/* ── COMPRE POR MARCA (logo abaixo do carrossel: escolhe novo/usado
+          e a marca, direto pro catálogo já filtrado) ────────────────── */}
+      <CompreMarca marcas={marcasComEstoque} />
 
       {/* ── CATEGORIAS ───────────────────────────────────── */}
       {categoriasComEstoque.length > 0 && (
