@@ -103,17 +103,24 @@ export default function BannerForm() {
 
         <div>
           <span className="block text-sm font-medium text-ink/80">Imagem do computador (opcional, formato paisagem)</span>
-          <p className="text-[11px] text-ink/40">Sem essa foto, o desktop usa a mesma do celular.</p>
+          <p className="text-[11px] text-ink/40">Sem essa foto, o desktop mostra só o fundo escuro (não usa a do celular).</p>
           <div className="mt-1 flex items-center gap-4">
             {imagemDesktop ? (
               <img src={imagemDesktop} alt="Prévia do banner (desktop)" className="h-20 w-36 rounded-lg border border-ink/10 object-cover" />
             ) : (
               <div className="flex h-20 w-36 items-center justify-center rounded-lg border border-dashed border-ink/15 text-[10px] text-ink/30">Sem imagem</div>
             )}
-            <label className="cursor-pointer rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/70 hover:border-ink/30">
-              {enviando === "desktop" ? "Processando..." : imagemDesktop ? "Trocar" : "Escolher"}
-              <input type="file" accept="image/*" onChange={handleImagemDesktopChange} disabled={enviando !== null} className="hidden" />
-            </label>
+            <div className="flex flex-col items-start gap-1.5">
+              <label className="cursor-pointer rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/70 hover:border-ink/30">
+                {enviando === "desktop" ? "Processando..." : imagemDesktop ? "Trocar" : "Escolher"}
+                <input type="file" accept="image/*" onChange={handleImagemDesktopChange} disabled={enviando !== null} className="hidden" />
+              </label>
+              {imagemDesktop && (
+                <button type="button" onClick={() => setImagemDesktop(null)} className="text-xs font-semibold text-ink/40 hover:text-red-500">
+                  Remover
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

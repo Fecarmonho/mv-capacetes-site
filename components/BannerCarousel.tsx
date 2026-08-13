@@ -63,18 +63,21 @@ function TelaBanner({ banner }: { banner: Banner }) {
 
   return (
     <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_HEIGHT}`}>
-      {/* Duas fotos no DOM, só uma visível por vez. No celular a caixa é
-          3:4 igual a foto, então object-contain nunca corta nada. No
-          desktop a caixa é bem mais larga que qualquer foto (largura da
-          tela toda, altura fixa) — contain deixava vão nas laterais, então
-          aqui usa object-cover pra preencher, recortando só uma faixa fina
-          das bordas quando sobra. */}
+      {/* No celular a caixa é 3:4 igual a foto, então object-contain nunca
+          corta nada. No desktop a caixa é bem mais larga que qualquer foto
+          (largura da tela toda, altura fixa) — contain deixava vão nas
+          laterais, então usa object-cover pra preencher. Sem uma foto de
+          desktop cadastrada, NÃO usa a do celular como substituta (ela é
+          vertical — cover cortaria quase tudo e ficaria horrível esticada
+          numa caixa larga); melhor mostrar só o fundo escuro. */}
       <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain sm:hidden" />
-      <img
-        src={banner.imagemDesktop || banner.imagem}
-        alt={banner.titulo ?? ""}
-        className="absolute inset-0 hidden h-full w-full object-cover sm:block"
-      />
+      {banner.imagemDesktop && (
+        <img
+          src={banner.imagemDesktop}
+          alt={banner.titulo ?? ""}
+          className="absolute inset-0 hidden h-full w-full object-cover sm:block"
+        />
+      )}
       {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
           o texto ficar legível em cima de qualquer foto. */}
       <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent sm:bg-gradient-to-r" />

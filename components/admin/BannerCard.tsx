@@ -54,6 +54,10 @@ export default function BannerCard({
     });
   }
 
+  function removerImagemDesktop() {
+    handleAction(() => salvarBanner(banner.id, { imagemDesktop: "" }));
+  }
+
   function toggleAtivo() {
     handleAction(() => salvarBanner(banner.id, { ativo: !banner.ativo }));
   }
@@ -94,13 +98,20 @@ export default function BannerCard({
             <img src={banner.imagemDesktop} alt="" className="h-20 w-28 rounded-lg object-cover" />
           ) : (
             <div className="flex h-20 w-28 items-center justify-center rounded-lg border border-dashed border-ink/15 text-center text-[9px] text-ink/30">
-              Usa a do celular
+              Sem foto
             </div>
           )}
-          <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
-            Desktop
-            <input type="file" accept="image/*" onChange={(e) => trocarImagem(e, "imagemDesktop")} disabled={salvando} className="hidden" />
-          </label>
+          <div className="flex items-center gap-2">
+            <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
+              Desktop
+              <input type="file" accept="image/*" onChange={(e) => trocarImagem(e, "imagemDesktop")} disabled={salvando} className="hidden" />
+            </label>
+            {banner.imagemDesktop && (
+              <button type="button" onClick={removerImagemDesktop} disabled={salvando} className="text-[10px] font-semibold text-ink/40 hover:text-red-500">
+                Remover
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
