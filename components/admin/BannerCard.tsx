@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Banner } from "@/lib/types";
 import DeleteButton from "@/components/admin/DeleteButton";
+import { processarFoto } from "@/lib/image-compress";
 
 async function salvarBanner(id: string, dados: Partial<Banner>) {
   const response = await fetch(`/api/admin/banners/${id}`, {
@@ -43,6 +44,16 @@ export default function BannerCard({
     }
   }
 
+  async function trocarImagem(e: React.ChangeEvent<HTMLInputElement>, campo: "imagem" | "imagemDesktop") {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    handleAction(async () => {
+      const { grande } = await processarFoto(file);
+      await salvarBanner(banner.id, { [campo]: grande });
+    });
+  }
+
   function toggleAtivo() {
     handleAction(() => salvarBanner(banner.id, { ativo: !banner.ativo }));
   }
@@ -70,7 +81,28 @@ export default function BannerCard({
 
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-ink/8 bg-white p-4 shadow-card sm:flex-row sm:items-center">
-      <img src={banner.imagem} alt={banner.titulo ?? ""} className="h-20 w-36 shrink-0 rounded-lg object-cover" />
+      <div className="flex shrink-0 gap-2">
+        <div className="flex flex-col items-center gap-1">
+          <img src={banner.imagem} alt={banner.titulo ?? ""} className="h-20 w-[60px] rounded-lg object-cover" />
+          <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
+            Celular
+            <input type="file" accept="image/*" onChange={(e) => trocarImagem(e, "imagem")} disabled={salvando} className="hidden" />
+          </label>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          {banner.imagemDesktop ? (
+            <img src={banner.imagemDesktop} alt="" className="h-20 w-28 rounded-lg object-cover" />
+          ) : (
+            <div className="flex h-20 w-28 items-center justify-center rounded-lg border border-dashed border-ink/15 text-center text-[9px] text-ink/30">
+              Usa a do celular
+            </div>
+          )}
+          <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
+            Desktop
+            <input type="file" accept="image/*" onChange={(e) => trocarImagem(e, "imagemDesktop")} disabled={salvando} className="hidden" />
+          </label>
+        </div>
+      </div>
 
       <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
         <input

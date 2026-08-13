@@ -82,7 +82,11 @@ export interface Marca {
 
 export interface Banner {
   id: string;
+  /** Imagem do celular (proporção 3:4) — obrigatória. */
   imagem: string;
+  /** Imagem alternativa pro desktop (formato paisagem). Se não tiver,
+   * usa a mesma foto do celular, só que numa caixa mais baixa e larga. */
+  imagemDesktop?: string;
   titulo?: string;
   /** Linha curta abaixo do título, no estilo dos carrosséis de vitrine. */
   descricao?: string;
