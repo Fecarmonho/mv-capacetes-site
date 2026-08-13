@@ -15,7 +15,7 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
         : null;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-ink/8 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/8 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
       <span className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-spark via-blue to-blue-deep opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
       <Link href={`/capacetes/${produto.slug}`} className="block">

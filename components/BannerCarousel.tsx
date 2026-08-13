@@ -5,24 +5,24 @@ import Link from "next/link";
 import { Banner } from "@/lib/types";
 
 const AUTOPLAY_MS = 5000;
-// Mesma altura em todas as telas (marca e banners), pra não pular de
-// tamanho ao deslizar — e com um valor definido também no mobile (antes
-// só existia a partir do sm:, então o banner ficava sem altura no celular).
-const SLIDE_HEIGHT = "min-h-[380px] sm:min-h-[440px] lg:min-h-[500px]";
+// Todas as telas (marca e banners) seguem a mesma proporção 3:4 — é o que
+// mantém a altura igual entre elas sem que o flex "estique" uma tela pra
+// bater com a outra (e sem cortar nenhuma foto, já que não há altura fixa).
+const SLIDE_ASPECT = "aspect-[3/4]";
 
 /** Primeira tela do carrossel: a marca, com o mesmo tratamento visual
  * (anéis pulsantes, glow, badge) que o Radar de Ofertas usa na tela de
  * abertura, e o título grande no estilo "pôster de vitrine" do fitmgwear. */
 function TelaMarca() {
   return (
-    <div className={`hero-night hero-grid relative flex w-full shrink-0 items-center overflow-hidden ${SLIDE_HEIGHT}`}>
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col-reverse items-center gap-8 px-6 py-10 sm:flex-row sm:justify-between sm:px-12 lg:px-20">
+    <div className={`hero-night hero-grid relative flex w-full shrink-0 items-center overflow-hidden ${SLIDE_ASPECT}`}>
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col-reverse items-center gap-6 px-6 py-6 sm:flex-row sm:justify-between sm:gap-8 sm:px-12 sm:py-10 lg:px-20">
         <div className="max-w-xl text-center sm:text-left">
           <span className="inline-flex items-center gap-2 rounded-full border border-blue/40 bg-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-light">
             <span className="h-2 w-2 animate-blink rounded-full bg-blue-light" />
             Loja de capacetes
           </span>
-          <h1 className="mt-4 font-impact text-5xl uppercase leading-[0.9] tracking-wide sm:text-6xl lg:text-7xl">
+          <h1 className="mt-4 font-impact text-5xl uppercase leading-[1.05] tracking-wide sm:text-6xl lg:text-7xl">
             Proteção,
             <br />
             <span className="text-blue-light">estilo</span> e atitude
@@ -64,8 +64,8 @@ function TelaBanner({ banner }: { banner: Banner }) {
   const temTexto = Boolean(banner.titulo);
 
   return (
-    <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_HEIGHT}`}>
-      <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-cover" />
+    <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_ASPECT}`}>
+      <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain" />
       {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
           o texto ficar legível em cima de qualquer foto. */}
       <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent sm:bg-gradient-to-r" />
@@ -76,7 +76,7 @@ function TelaBanner({ banner }: { banner: Banner }) {
             <span className="h-1.5 w-1.5 rounded-full bg-blue-light" />
             Oferta
           </span>
-          <h2 className="max-w-md font-impact text-4xl uppercase leading-[0.9] tracking-wide text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.5)] sm:text-6xl">
+          <h2 className="max-w-md font-impact text-4xl uppercase leading-[1.05] tracking-wide text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.5)] sm:text-6xl">
             {banner.titulo}
           </h2>
           {banner.descricao && (
@@ -126,7 +126,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative overflow-hidden lg:mx-auto lg:max-w-3xl"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}

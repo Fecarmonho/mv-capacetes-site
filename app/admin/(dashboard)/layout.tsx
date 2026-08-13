@@ -14,7 +14,7 @@ export default async function AdminDashboardLayout({
   if (!session) redirect("/admin/login");
 
   return (
-    <div className="flex min-h-screen bg-paper md:flex-row">
+    <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <Sidebar />
       <div className="flex min-h-screen flex-1 flex-col">
         <header className="hidden items-center justify-between border-b border-ink/8 bg-white px-6 py-4 md:flex">
