@@ -10,7 +10,7 @@ export default async function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-10">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <img src="/brand/logo.jpg" alt={config.nomeLoja} className="h-11 w-11 rounded-full ring-2 ring-blue-light/25" />
+            <img src="/brand/logo-round.png" alt={config.nomeLoja} className="h-11 w-11 rounded-full ring-2 ring-blue-light/25" />
             <div>
               <p className="font-display text-base font-bold text-white">{config.nomeLoja}</p>
               {config.textoInstitucional && <p className="mt-0.5 max-w-xs text-xs text-white/50">{config.textoInstitucional}</p>}

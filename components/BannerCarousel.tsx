@@ -35,19 +35,24 @@ function TelaMarca() {
           </div>
         </div>
 
-        <div className="animate-float-slow relative shrink-0">
-          <span className="absolute inset-0 animate-pulse-ring rounded-full border-2 border-blue-light/50" aria-hidden="true" />
-          <span
-            className="absolute inset-0 animate-pulse-ring rounded-full border-2 border-spark/40"
-            style={{ animationDelay: "1.2s" }}
-            aria-hidden="true"
-          />
+        {/* Emblema com giro 3D contínuo (perspectiva de verdade, não só um
+            anel pulsando) e um brilho que desliza por cima de tempos em
+            tempos, como reflexo de luz numa peça metálica/cromada. */}
+        <div className="relative shrink-0" style={{ perspective: "700px" }}>
           <span className="absolute inset-[-10%] rounded-full bg-blue/25 blur-3xl" aria-hidden="true" />
-          <img
-            src="/brand/logo.jpg"
-            alt="MV Capacetes"
-            className="relative w-[140px] rounded-full shadow-glow sm:w-[190px] lg:w-[230px]"
-          />
+          <div className="relative animate-badge-3d" style={{ transformStyle: "preserve-3d" }}>
+            <div className="relative overflow-hidden rounded-full shadow-glow">
+              <img
+                src="/brand/logo-round.png"
+                alt="MV Capacetes"
+                className="relative block w-[140px] sm:w-[190px] lg:w-[230px]"
+              />
+              <span
+                className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shine-sweep bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

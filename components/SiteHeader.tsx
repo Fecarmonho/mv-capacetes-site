@@ -13,7 +13,7 @@ export default function SiteHeader() {
     <header className="hero-night sticky top-0 z-40 border-b border-white/10">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-3">
-          <img src="/brand/logo.jpg" alt="MV Capacetes" className="h-11 w-11 rounded-full ring-2 ring-blue-light/25" />
+          <img src="/brand/logo-round.png" alt="MV Capacetes" className="h-11 w-11 rounded-full ring-2 ring-blue-light/25" />
           <span className="font-display text-lg font-bold text-white">
             MV <span className="text-blue-light">Capacetes</span>
           </span>

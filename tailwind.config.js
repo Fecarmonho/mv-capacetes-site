@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       colors: {
         // Paleta tirada da logo oficial (emblema escuro, azul elétrico,
-        // detalhes cromados/prata). Ver public/brand/logo.jpg.
+        // detalhes cromados/prata). Ver public/brand/logo-round.png.
         night: "#05070D",
         ink: "#0F1420",
         paper: "#F5F7FA",
@@ -38,6 +38,8 @@ module.exports = {
         "shrink-x": "shrink-x linear forwards",
         blink: "blink 2s ease-in-out infinite",
         marquee: "marquee 22s linear infinite",
+        "badge-3d": "badge-3d 6s ease-in-out infinite",
+        "shine-sweep": "shine-sweep 4s ease-in-out infinite",
       },
       keyframes: {
         "pulse-ring": {
@@ -63,6 +65,14 @@ module.exports = {
         marquee: {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
+        },
+        "badge-3d": {
+          "0%, 100%": { transform: "translateY(0) rotateY(-14deg) rotateX(5deg)" },
+          "50%": { transform: "translateY(-10px) rotateY(14deg) rotateX(-5deg)" },
+        },
+        "shine-sweep": {
+          "0%, 55%": { transform: "translateX(-120%) skewX(-12deg)" },
+          "80%, 100%": { transform: "translateX(220%) skewX(-12deg)" },
         },
       },
     },

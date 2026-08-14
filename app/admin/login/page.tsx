@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm rounded-2xl border border-white/10 bg-ink p-8 shadow-glow"
       >
         <div className="mb-2 flex justify-center">
-          <img src="/brand/logo.jpg" alt="MV Capacetes" className="h-16 w-16 rounded-full" />
+          <img src="/brand/logo-round.png" alt="MV Capacetes" className="h-16 w-16 rounded-full" />
         </div>
         <h1 className="text-center font-display text-2xl font-bold text-white">
           Painel <span className="text-blue-light">MV Capacetes</span>

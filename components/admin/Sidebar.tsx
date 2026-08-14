@@ -50,7 +50,7 @@ export default function Sidebar() {
       {/* Desktop */}
       <aside className="hero-night hidden w-64 shrink-0 flex-col gap-6 border-r border-white/10 p-5 md:flex">
         <Link href="/admin" className="flex items-center gap-3">
-          <img src="/brand/logo.jpg" alt="MV Capacetes" className="h-10 w-10 rounded-full" />
+          <img src="/brand/logo-round.png" alt="MV Capacetes" className="h-10 w-10 rounded-full" />
           <span className="font-display text-lg font-bold text-white">
             MV <span className="text-blue-light">Capacetes</span>
           </span>
@@ -61,7 +61,7 @@ export default function Sidebar() {
       {/* Mobile: barra superior + menu deslizante */}
       <div className="hero-night flex items-center justify-between border-b border-white/10 px-4 py-3 md:hidden">
         <Link href="/admin" className="flex items-center gap-2">
-          <img src="/brand/logo.jpg" alt="MV Capacetes" className="h-8 w-8 rounded-full" />
+          <img src="/brand/logo-round.png" alt="MV Capacetes" className="h-8 w-8 rounded-full" />
           <span className="font-display text-base font-bold text-white">MV Capacetes</span>
         </Link>
         <button
