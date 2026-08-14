@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
 import { Produto, VarianteProduto } from "@/lib/types";
 
 function formatBRL(valor: number) {
@@ -21,11 +22,23 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
       <Link href={`/capacetes/${produto.slug}`} className="block">
         <div className="relative aspect-square bg-gradient-to-br from-paper to-ink/5">
           {produto.imagemUrl ? (
-            <img
-              src={produto.imagemUrl}
-              alt={produto.nome}
-              className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-105 sm:p-6"
-            />
+            <>
+              <img
+                src={produto.imagemUrl}
+                alt={produto.nome}
+                className="h-full w-full object-contain p-4 transition-opacity duration-300 sm:p-6"
+              />
+              {/* Segunda foto por cima, escondida — aparece com o mouse em
+                  cima do card, dando a impressão do capacete girando (mesmo
+                  recurso de vitrine online que a Adrenalina Motos usa). */}
+              {produto.imagemHoverUrl && (
+                <img
+                  src={produto.imagemHoverUrl}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-6"
+                />
+              )}
+            </>
           ) : (
             <div className="flex h-full w-full items-center justify-center text-xs text-ink/30">Foto em breve</div>
           )}
@@ -70,12 +83,26 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
               <span className="font-display text-lg font-extrabold text-ink sm:text-2xl">{formatBRL(produto.preco)}</span>
             )}
           </div>
-          <Link
-            href={`/capacetes/${produto.slug}`}
-            className="btn-blue flex items-center justify-center whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-white sm:px-5 sm:py-2.5 sm:text-sm"
-          >
-            Ver produto
-          </Link>
+          <div className="flex items-center gap-2">
+            {!semEstoque && (
+              <a
+                href={`/api/interesse/${produto.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Comprar no WhatsApp"
+                title="Comprar no WhatsApp"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform hover:scale-105 sm:h-10 sm:w-10"
+              >
+                <FaWhatsapp className="h-4 w-4 sm:h-5 sm:w-5" />
+              </a>
+            )}
+            <Link
+              href={`/capacetes/${produto.slug}`}
+              className="btn-blue flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-white sm:flex-none sm:px-5 sm:py-2.5 sm:text-sm"
+            >
+              Ver produto
+            </Link>
+          </div>
         </div>
       </div>
     </article>

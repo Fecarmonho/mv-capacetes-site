@@ -25,6 +25,10 @@ export interface Produto {
   descricao: string;
   caracteristicas: string[];
   imagemUrl: string;
+  /** Segunda foto (mini) — mostrada no lugar da capa quando o mouse passa
+   * em cima do card, dando a impressão do capacete "girando". Vem
+   * automaticamente da 1ª foto extra cadastrada, se tiver. */
+  imagemHoverUrl?: string;
   totalFotos: number;
   dataCadastro: string;
   dataAtualizacao: string;

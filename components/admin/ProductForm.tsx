@@ -180,7 +180,12 @@ export default function ProductForm({
       const method = isEditing ? "PUT" : "POST";
 
       const payload = {
-        produto: { ...form, imagemUrl: capa.mini, tamanho: temVariantes ? undefined : form.tamanho },
+        produto: {
+          ...form,
+          imagemUrl: capa.mini,
+          imagemHoverUrl: fotosExtras[0]?.mini,
+          tamanho: temVariantes ? undefined : form.tamanho,
+        },
         variantes: temVariantes ? variantes : [],
         // A versão em alta da capa viaja junto (fid "capa") pra ampliação
         // na página do produto não usar a mesma foto pequena do card.
