@@ -1,21 +1,29 @@
+/* Ícones sólidos (preenchidos, não linha fina) — mais fácil de reconhecer
+ * pequeno numa faixa rolando. O corte do visor usa a cor do fundo escuro
+ * do próprio marquee (hero-night, #05070D) direto, já que esse ícone só
+ * é usado em cima dessa faixa. */
 function IconeCapacete({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M4 14c0-5 3.5-9 8-9s8 4 8 9" />
-      <path d="M4 14h16v1a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-1Z" />
-      <path d="M14.5 10.3c1.4.4 2.4 1.3 2.9 2.4" />
+    <svg viewBox="0 0 24 24" className={className}>
+      <path
+        fill="currentColor"
+        d="M12 3.5c-4.7 0-8.5 3.9-8.5 8.7v3.3c0 1.4 1.1 2.5 2.5 2.5h.5v-5.8c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5v5.8h.5c1.4 0 2.5-1.1 2.5-2.5v-3.3c0-4.8-3.8-8.7-8.5-8.7Z"
+      />
+      <rect x="6.5" y="12.6" width="11" height="2.6" rx="1.3" fill="#05070D" />
     </svg>
   );
 }
 
 function IconeMoto({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <circle cx="5" cy="18" r="3" />
-      <circle cx="19" cy="18" r="3" />
-      <path d="M5 18h5l4-7h6" />
-      <path d="M11 11l3 7h5" />
-      <path d="M16 7h3l1.5 4" />
+    <svg viewBox="0 0 24 24" className={className}>
+      <circle cx="5.5" cy="17.5" r="3" fill="currentColor" />
+      <circle cx="18.5" cy="17.5" r="3" fill="currentColor" />
+      <path
+        fill="currentColor"
+        d="M7 17.5a1.3 1.3 0 0 1 1.3-1.3h2.4l1.9-4.6a1.3 1.3 0 0 1 1.2-.8h3.1c.5 0 1 .3 1.2.8l1.4 3.3c.7.2 1.2.8 1.2 1.6a1.3 1.3 0 0 1-1.3 1.3H17a1.3 1.3 0 0 1-1.3-1.3H8.3A1.3 1.3 0 0 1 7 17.5Z"
+      />
+      <rect x="15.2" y="7.3" width="4.3" height="2.1" rx="1" fill="currentColor" />
     </svg>
   );
 }

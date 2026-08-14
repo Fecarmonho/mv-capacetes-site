@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
   const { produto, variantes, fotos } = (await request.json()) as Payload;
 
-  if (!produto.slug || !produto.nome || !produto.sku || !produto.preco) {
+  if (!produto.slug || !produto.nome || !produto.preco) {
     return NextResponse.json({ error: "Campos obrigatórios faltando." }, { status: 400 });
   }
 

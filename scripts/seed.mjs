@@ -31,11 +31,11 @@ const produtos = [
   {
     slug: "ls2-ff353-rapid-preto-fosco",
     nome: "LS2 FF353 Rapid",
-    sku: "LS2-353-RPD",
     tipo: "novo",
     marca: "LS2",
     modelo: "FF353 Rapid",
     cor: "Preto fosco",
+    precoCompra: 320,
     preco: 499.9,
     precoPromocional: 429.9,
     quantidadeEstoque: 0, // soma das variantes
@@ -57,11 +57,11 @@ const produtos = [
   {
     slug: "norisk-atomic-escamoteavel-grafite",
     nome: "Norisk Atomic",
-    sku: "NRK-ATM-GRF",
     tipo: "novo",
     marca: "Norisk",
     modelo: "Atomic",
     cor: "Grafite",
+    precoCompra: 420,
     preco: 649.9,
     quantidadeEstoque: 0,
     quantidadeMinima: 2,
@@ -80,11 +80,11 @@ const produtos = [
   {
     slug: "pro-tork-evolution-usado-58",
     nome: "Pro Tork Evolution",
-    sku: "PTK-EVO-USD-01",
     tipo: "usado",
     marca: "Pro Tork",
     modelo: "Evolution",
     cor: "Vermelho",
+    precoCompra: 120,
     preco: 189.9,
     quantidadeEstoque: 1,
     quantidadeMinima: 1,

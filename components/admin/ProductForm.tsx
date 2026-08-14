@@ -10,6 +10,10 @@ import { uid } from "@/lib/uid";
 const MAX_FOTOS_EXTRAS = 5;
 const ESTADOS_CONSERVACAO = ["Excelente", "Muito bom", "Bom", "Regular"];
 
+function formatBRL(valor: number) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
 type LinhaVariante = { id?: string; tamanho: string; estoque: number };
 type LinhaFoto = FotoProduto & { nova?: boolean };
 
@@ -31,12 +35,12 @@ export default function ProductForm({
     initialProduto ?? {
       slug: "",
       nome: "",
-      sku: "",
       tipo: "novo",
       marca: marcas[0]?.nome ?? "",
       modelo: "",
       cor: "",
       tamanho: "",
+      precoCompra: undefined,
       preco: 0,
       precoPromocional: undefined,
       quantidadeEstoque: 0,
@@ -149,8 +153,8 @@ export default function ProductForm({
     e.preventDefault();
     setError(null);
 
-    if (!form.nome || !form.sku || !form.preco || form.preco <= 0) {
-      setError("Preencha nome, SKU e um preço válido.");
+    if (!form.nome || !form.preco || form.preco <= 0) {
+      setError("Preencha nome e um preço de venda válido.");
       return;
     }
     if (!capa) {
@@ -254,11 +258,19 @@ export default function ProductForm({
         <h2 className="font-display text-lg font-bold text-ink">Comercial</h2>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
           <label className={labelClass}>
-            SKU
-            <input required value={form.sku} onChange={(e) => update("sku", e.target.value)} className={`${inputClass} font-mono`} />
+            Preço de compra (R$)
+            <input
+              type="number"
+              min={0}
+              step={0.01}
+              value={form.precoCompra ?? ""}
+              onChange={(e) => update("precoCompra", e.target.value ? parseFloat(e.target.value) : undefined)}
+              className={inputClass}
+            />
+            <span className="mt-1 block text-[11px] font-normal text-ink/40">Só pra calcular a margem — não aparece pro cliente.</span>
           </label>
           <label className={labelClass}>
-            Preço (R$)
+            Preço de venda (R$)
             <input required type="number" min={0} step={0.01} value={form.preco || ""} onChange={(e) => update("preco", parseFloat(e.target.value) || 0)} className={inputClass} />
           </label>
           <label className={labelClass}>
@@ -266,6 +278,18 @@ export default function ProductForm({
             <input type="number" min={0} step={0.01} value={form.precoPromocional ?? ""} onChange={(e) => update("precoPromocional", e.target.value ? parseFloat(e.target.value) : undefined)} className={inputClass} />
           </label>
         </div>
+
+        {Boolean(form.precoCompra) && form.preco > 0 && (
+          <div className="mt-4 flex items-center gap-3 rounded-lg bg-paper px-3 py-2 text-sm">
+            <span className="text-ink/60">Margem sobre o preço de venda:</span>
+            {(() => {
+              const margem = ((form.preco - (form.precoCompra ?? 0)) / (form.precoCompra ?? 1)) * 100;
+              const cor = margem > 30 ? "text-emerald-600" : margem > 10 ? "text-amber-600" : "text-red-500";
+              return <span className={`font-bold ${cor}`}>{margem.toFixed(0)}%</span>;
+            })()}
+            <span className="text-ink/40">· lucro de {formatBRL(form.preco - (form.precoCompra ?? 0))}</span>
+          </div>
+        )}
       </section>
 
       {/* Bloco: Estoque / Variantes */}

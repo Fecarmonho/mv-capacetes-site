@@ -24,7 +24,7 @@ export async function createProduto(produto: Produto): Promise<void> {
   const ref = adminDb.collection(COLLECTION).doc(produto.slug);
   const existing = await ref.get();
   if (existing.exists) {
-    throw new Error(`Já existe um produto com o SKU/slug "${produto.slug}".`);
+    throw new Error(`Já existe um produto com o slug "${produto.slug}".`);
   }
   await ref.set(produto);
 }
@@ -38,7 +38,7 @@ export async function updateProduto(currentSlug: string, produto: Produto): Prom
     const newRef = adminDb.collection(COLLECTION).doc(produto.slug);
     const newExists = await newRef.get();
     if (newExists.exists) {
-      throw new Error(`Já existe um produto com o SKU/slug "${produto.slug}".`);
+      throw new Error(`Já existe um produto com o slug "${produto.slug}".`);
     }
     await newRef.set(produto);
     await oldRef.delete();

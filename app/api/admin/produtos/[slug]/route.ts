@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest, { params }: { params: { slug: st
 
   const { produto, variantes, fotos } = (await request.json()) as Payload;
 
-  if (!produto.nome || !produto.sku || !produto.preco) {
+  if (!produto.nome || !produto.preco) {
     return NextResponse.json({ error: "Campos obrigatórios faltando." }, { status: 400 });
   }
 

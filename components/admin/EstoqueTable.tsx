@@ -11,6 +11,15 @@ function formatBRL(valor: number) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+/** Margem sobre o preço de venda — mesma regra do fitmgwear: sem preço de
+ * compra cadastrado não dá pra calcular. */
+function Margem({ produto }: { produto: Produto }) {
+  if (!produto.precoCompra) return null;
+  const margem = ((produto.preco - produto.precoCompra) / produto.precoCompra) * 100;
+  const cor = margem > 30 ? "bg-emerald-100 text-emerald-700" : margem > 10 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600";
+  return <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${cor}`}>{margem.toFixed(0)}% margem</span>;
+}
+
 export default function EstoqueTable({
   produtos,
   variantesPorProduto,
@@ -56,8 +65,9 @@ export default function EstoqueTable({
                       {p.tipo}
                     </span>
                     <p className="font-medium text-ink">{p.nome}</p>
+                    <Margem produto={p} />
                   </div>
-                  <p className="text-xs text-ink/40">{p.marca} · SKU {p.sku} · {formatBRL(p.precoPromocional ?? p.preco)}</p>
+                  <p className="text-xs text-ink/40">{p.marca} · {formatBRL(p.precoPromocional ?? p.preco)}</p>
                 </div>
               </div>
 

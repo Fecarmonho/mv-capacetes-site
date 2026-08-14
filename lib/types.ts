@@ -6,7 +6,6 @@ export type StatusProduto = "ativo" | "inativo" | "esgotado" | "vendido";
 export interface Produto {
   slug: string;
   nome: string;
-  sku: string;
   tipo: TipoProduto;
   marca: string;
   modelo: string;
@@ -14,6 +13,10 @@ export interface Produto {
   /** Só usado quando o produto não tem variantes de tamanho (ex: usado,
    * unidade única) — quando há variantes, cada uma carrega o seu tamanho. */
   tamanho?: string;
+  /** Quanto custou pra loja — só serve pra calcular a margem no admin,
+   * nunca aparece pro cliente no site. */
+  precoCompra?: number;
+  /** Preço de venda "de tabela". */
   preco: number;
   precoPromocional?: number;
   quantidadeEstoque: number;
