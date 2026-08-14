@@ -46,7 +46,6 @@ const produtos = [
     caracteristicas: ["Viseira anti-risco", "Forro removível e lavável", "Certificado INMETRO"],
     imagemUrl: "",
     totalFotos: 1,
-    destaque: true,
     dataCadastro: agora,
     dataAtualizacao: agora,
     variantes: [
@@ -71,7 +70,6 @@ const produtos = [
     caracteristicas: ["Óculos solar interno", "Viseira selada", "Certificado INMETRO"],
     imagemUrl: "",
     totalFotos: 1,
-    destaque: true,
     dataCadastro: agora,
     dataAtualizacao: agora,
     variantes: [

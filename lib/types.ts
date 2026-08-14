@@ -23,7 +23,6 @@ export interface Produto {
   caracteristicas: string[];
   imagemUrl: string;
   totalFotos: number;
-  destaque?: boolean;
   dataCadastro: string;
   dataAtualizacao: string;
   // Exclusivos de capacete usado
@@ -73,6 +72,18 @@ export interface Marca {
   logo?: string;
 }
 
+/** Vitrine de produtos escolhida à mão pelo admin (ex: "Ofertas da
+ * semana") — guarda só os slugs, então preço/foto/estoque exibidos na
+ * home sempre vêm direto do cadastro atual do produto (nunca ficam
+ * desatualizados). */
+export interface SecaoHome {
+  id: string;
+  titulo: string;
+  produtoSlugs: string[];
+  ordem: number;
+  ativo: boolean;
+}
+
 export interface Banner {
   id: string;
   /** Imagem do celular (proporção 3:4) — obrigatória. */
@@ -92,9 +103,6 @@ export interface ConfiguracoesLoja {
   nomeLoja: string;
   whatsapp: string;
   instagram: string;
-  email: string;
-  endereco: string;
-  horarioAtendimento: string;
   textoInstitucional: string;
   // Seção "Quem somos" do site — só aparece se tiver história cadastrada.
   quemSomosNome: string;

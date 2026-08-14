@@ -109,19 +109,7 @@ export default function ConfiguracoesForm({ initialConfig }: { initialConfig: Co
             Instagram (link completo)
             <input value={form.instagram} onChange={(e) => update("instagram", e.target.value)} placeholder="https://instagram.com/mvcapacetes" className={inputClass} />
           </label>
-          <label className={labelClass}>
-            E-mail
-            <input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className={inputClass} />
-          </label>
-          <label className={labelClass}>
-            Horário de atendimento
-            <input value={form.horarioAtendimento} onChange={(e) => update("horarioAtendimento", e.target.value)} placeholder="Seg a Sáb, 9h às 18h" className={inputClass} />
-          </label>
         </div>
-        <label className={`${labelClass} mt-4`}>
-          Endereço
-          <input value={form.endereco} onChange={(e) => update("endereco", e.target.value)} className={inputClass} />
-        </label>
       </section>
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}

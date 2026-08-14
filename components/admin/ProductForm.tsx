@@ -46,7 +46,6 @@ export default function ProductForm({
       caracteristicas: [],
       imagemUrl: "",
       totalFotos: 1,
-      destaque: false,
       dataCadastro: new Date().toISOString(),
       dataAtualizacao: new Date().toISOString(),
     }
@@ -248,10 +247,6 @@ export default function ProductForm({
             </select>
           </label>
         </div>
-        <label className="mt-4 flex items-center gap-2 text-sm font-medium text-ink/80">
-          <input type="checkbox" checked={form.destaque ?? false} onChange={(e) => update("destaque", e.target.checked)} />
-          Mostrar em destaque na home
-        </label>
       </section>
 
       {/* Bloco: Comercial */}

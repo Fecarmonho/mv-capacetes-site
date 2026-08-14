@@ -8,7 +8,6 @@ const ORDENACOES = [
   { value: "recentes", label: "Mais recentes" },
   { value: "menor-preco", label: "Menor preço" },
   { value: "maior-preco", label: "Maior preço" },
-  { value: "destaques", label: "Destaques" },
 ];
 
 export default function ProductFilters({

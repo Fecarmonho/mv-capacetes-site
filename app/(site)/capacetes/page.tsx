@@ -65,9 +65,6 @@ export default async function CatalogoPage({
     case "maior-preco":
       produtos = [...produtos].sort((a, b) => (b.precoPromocional ?? b.preco) - (a.precoPromocional ?? a.preco));
       break;
-    case "destaques":
-      produtos = [...produtos].sort((a, b) => Number(b.destaque ?? false) - Number(a.destaque ?? false));
-      break;
     default:
       produtos = [...produtos].sort((a, b) => b.dataCadastro.localeCompare(a.dataCadastro));
   }

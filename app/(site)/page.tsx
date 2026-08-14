@@ -4,6 +4,7 @@ import { getVariantesByProdutos } from "@/lib/variantes-db";
 import { getAllMarcas } from "@/lib/marcas-db";
 import { getBannersAtivos } from "@/lib/banners-db";
 import { getConfiguracoes } from "@/lib/config-db";
+import { getSecoesAtivas } from "@/lib/secoes-db";
 import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
 import MarqueeStrip from "@/components/MarqueeStrip";
@@ -13,17 +14,24 @@ import { Produto } from "@/lib/types";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [todosProdutos, marcas, banners, config] = await Promise.all([
+  const [todosProdutos, marcas, banners, config, secoes] = await Promise.all([
     getAllProdutos(),
     getAllMarcas(),
     getBannersAtivos(),
     getConfiguracoes(),
+    getSecoesAtivas(),
   ]);
 
   const produtos = todosProdutos.filter((p) => p.status === "ativo" || p.status === "esgotado");
   const variantesPorProduto = await getVariantesByProdutos(produtos.map((p) => p.slug));
 
-  const destaques = produtos.filter((p) => p.destaque).slice(0, 10);
+  const produtosPorSlug = new Map(produtos.map((p) => [p.slug, p]));
+  // As seções guardam só o slug — a foto/preço/estoque exibidos aqui vêm
+  // sempre do cadastro atual do produto, nunca de uma cópia desatualizada.
+  const secoesComProdutos = secoes
+    .map((s) => ({ ...s, produtos: s.produtoSlugs.map((slug) => produtosPorSlug.get(slug)).filter((p): p is Produto => Boolean(p)) }))
+    .filter((s) => s.produtos.length > 0);
+
   const novos = produtos.filter((p) => p.tipo === "novo").slice(0, 10);
   const usados = produtos.filter((p) => p.tipo === "usado").slice(0, 10);
 
@@ -50,16 +58,15 @@ export default async function HomePage() {
           e a marca, direto pro catálogo já filtrado) ────────────────── */}
       <CompreMarca marcasPorTipo={marcasPorTipo} />
 
-      {/* ── DESTAQUES ────────────────────────────────────── */}
-      {destaques.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-blue">Selecionados pra você</p>
-          <h2 className="mt-2 font-display text-2xl font-bold text-ink sm:text-3xl">Capacetes em destaque</h2>
+      {/* ── SEÇÕES (montadas no admin — ex: "Ofertas da semana") ────── */}
+      {secoesComProdutos.map((s) => (
+        <section key={s.id} className="mx-auto max-w-6xl px-4 py-6">
+          <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{s.titulo}</h2>
           <div className="mt-6">
-            <ProductCarousel itens={comVariantes(destaques)} />
+            <ProductCarousel itens={comVariantes(s.produtos)} />
           </div>
         </section>
-      )}
+      ))}
 
       {/* ── NOVOS ────────────────────────────────────────── */}
       {novos.length > 0 && (
