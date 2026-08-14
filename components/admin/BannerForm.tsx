@@ -2,16 +2,20 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
 import { processarFoto } from "@/lib/image-compress";
+
+const VIDEO_MAX_MB = 50;
 
 export default function BannerForm() {
   const router = useRouter();
   const [imagem, setImagem] = useState<string | null>(null);
   const [imagemDesktop, setImagemDesktop] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [link, setLink] = useState("");
-  const [enviando, setEnviando] = useState<"celular" | "desktop" | null>(null);
+  const [enviando, setEnviando] = useState<"celular" | "desktop" | "video" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -45,6 +49,29 @@ export default function BannerForm() {
     }
   }
 
+  async function handleVideoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (file.size > VIDEO_MAX_MB * 1024 * 1024) {
+      setError(`Vídeo muito grande — o máximo é ${VIDEO_MAX_MB}MB.`);
+      return;
+    }
+    setEnviando("video");
+    setError(null);
+    try {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/banners/upload-video",
+      });
+      setVideoUrl(blob.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Falha ao enviar o vídeo.");
+    } finally {
+      setEnviando(null);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -61,6 +88,7 @@ export default function BannerForm() {
         body: JSON.stringify({
           imagem,
           imagemDesktop: imagemDesktop || undefined,
+          videoUrl: videoUrl || undefined,
           titulo: titulo || undefined,
           descricao: descricao || undefined,
           link: link || undefined,
@@ -70,6 +98,7 @@ export default function BannerForm() {
       if (!response.ok) throw new Error("Não foi possível salvar o banner.");
       setImagem(null);
       setImagemDesktop(null);
+      setVideoUrl(null);
       setTitulo("");
       setDescricao("");
       setLink("");
@@ -121,6 +150,29 @@ export default function BannerForm() {
                 </button>
               )}
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span className="block text-sm font-medium text-ink/80">Vídeo (opcional, no lugar das fotos)</span>
+        <p className="text-[11px] text-ink/40">Toca mudo, em loop, nas duas telas. Até {VIDEO_MAX_MB}MB. Com vídeo, as fotos acima viram só a prévia enquanto ele carrega.</p>
+        <div className="mt-1 flex items-center gap-4">
+          {videoUrl ? (
+            <video src={videoUrl} muted loop autoPlay playsInline className="h-24 w-36 rounded-lg border border-ink/10 object-cover" />
+          ) : (
+            <div className="flex h-24 w-36 items-center justify-center rounded-lg border border-dashed border-ink/15 text-[10px] text-ink/30">Sem vídeo</div>
+          )}
+          <div className="flex flex-col items-start gap-1.5">
+            <label className="cursor-pointer rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/70 hover:border-ink/30">
+              {enviando === "video" ? "Enviando..." : videoUrl ? "Trocar" : "Escolher vídeo"}
+              <input type="file" accept="video/mp4,video/webm,video/quicktime" onChange={handleVideoChange} disabled={enviando !== null} className="hidden" />
+            </label>
+            {videoUrl && (
+              <button type="button" onClick={() => setVideoUrl(null)} className="text-xs font-semibold text-ink/40 hover:text-red-500">
+                Remover
+              </button>
+            )}
           </div>
         </div>
       </div>

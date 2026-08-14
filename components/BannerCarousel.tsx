@@ -68,20 +68,38 @@ function TelaBanner({ banner }: { banner: Banner }) {
 
   return (
     <Wrapper href={banner.link ?? "#"} className={`relative flex w-full shrink-0 overflow-hidden bg-night ${SLIDE_HEIGHT}`}>
-      {/* No celular a caixa é 3:4 igual a foto, então object-contain nunca
-          corta nada. No desktop a caixa é bem mais larga que qualquer foto
-          (largura da tela toda, altura fixa) — contain deixava vão nas
-          laterais, então usa object-cover pra preencher. Sem uma foto de
-          desktop cadastrada, NÃO usa a do celular como substituta (ela é
-          vertical — cover cortaria quase tudo e ficaria horrível esticada
-          numa caixa larga); melhor mostrar só o fundo escuro. */}
-      <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain sm:hidden" />
-      {banner.imagemDesktop && (
-        <img
-          src={banner.imagemDesktop}
-          alt={banner.titulo ?? ""}
-          className="absolute inset-0 hidden h-full w-full object-cover sm:block"
+      {banner.videoUrl ? (
+        // Vídeo único pras duas telas: contain no celular (não corta,
+        // igual a foto) e cover no desktop (preenche a faixa larga) —
+        // troca só o object-fit por breakpoint, sem precisar de dois
+        // arquivos de vídeo.
+        <video
+          src={banner.videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-contain sm:object-cover"
         />
+      ) : (
+        <>
+          {/* No celular a caixa é 3:4 igual a foto, então object-contain
+              nunca corta nada. No desktop a caixa é bem mais larga que
+              qualquer foto (largura da tela toda, altura fixa) — contain
+              deixava vão nas laterais, então usa object-cover pra
+              preencher. Sem uma foto de desktop cadastrada, NÃO usa a do
+              celular como substituta (ela é vertical — cover cortaria
+              quase tudo e ficaria horrível esticada numa caixa larga);
+              melhor mostrar só o fundo escuro. */}
+          <img src={banner.imagem} alt={banner.titulo ?? ""} className="absolute inset-0 h-full w-full object-contain sm:hidden" />
+          {banner.imagemDesktop && (
+            <img
+              src={banner.imagemDesktop}
+              alt={banner.titulo ?? ""}
+              className="absolute inset-0 hidden h-full w-full object-cover sm:block"
+            />
+          )}
+        </>
       )}
       {/* Gradiente da esquerda pro centro — mesmo recurso do fitmgwear pra
           o texto ficar legível em cima de qualquer foto. */}

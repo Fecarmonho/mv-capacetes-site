@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
 import { Banner } from "@/lib/types";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { processarFoto } from "@/lib/image-compress";
+
+const VIDEO_MAX_MB = 50;
 
 async function salvarBanner(id: string, dados: Partial<Banner>) {
   const response = await fetch(`/api/admin/banners/${id}`, {
@@ -58,6 +61,27 @@ export default function BannerCard({
     handleAction(() => salvarBanner(banner.id, { imagemDesktop: "" }));
   }
 
+  function trocarVideo(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (file.size > VIDEO_MAX_MB * 1024 * 1024) {
+      setError(`Vídeo muito grande — o máximo é ${VIDEO_MAX_MB}MB.`);
+      return;
+    }
+    handleAction(async () => {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/banners/upload-video",
+      });
+      await salvarBanner(banner.id, { videoUrl: blob.url });
+    });
+  }
+
+  function removerVideo() {
+    handleAction(() => salvarBanner(banner.id, { videoUrl: "" }));
+  }
+
   function toggleAtivo() {
     handleAction(() => salvarBanner(banner.id, { ativo: !banner.ativo }));
   }
@@ -108,6 +132,26 @@ export default function BannerCard({
             </label>
             {banner.imagemDesktop && (
               <button type="button" onClick={removerImagemDesktop} disabled={salvando} className="text-[10px] font-semibold text-ink/40 hover:text-red-500">
+                Remover
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          {banner.videoUrl ? (
+            <video src={banner.videoUrl} muted loop autoPlay playsInline className="h-20 w-28 rounded-lg object-cover" />
+          ) : (
+            <div className="flex h-20 w-28 items-center justify-center rounded-lg border border-dashed border-ink/15 text-center text-[9px] text-ink/30">
+              Sem vídeo
+            </div>
+          )}
+          <div className="flex items-center gap-2">
+            <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
+              Vídeo
+              <input type="file" accept="video/mp4,video/webm,video/quicktime" onChange={trocarVideo} disabled={salvando} className="hidden" />
+            </label>
+            {banner.videoUrl && (
+              <button type="button" onClick={removerVideo} disabled={salvando} className="text-[10px] font-semibold text-ink/40 hover:text-red-500">
                 Remover
               </button>
             )}

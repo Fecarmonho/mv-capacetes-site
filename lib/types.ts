@@ -93,11 +93,17 @@ export interface SecaoHome {
 
 export interface Banner {
   id: string;
-  /** Imagem do celular (proporção 3:4) — obrigatória. */
+  /** Imagem do celular (proporção 3:4) — obrigatória mesmo em banner de
+   * vídeo, é o que aparece enquanto o vídeo carrega e se o navegador não
+   * conseguir tocar o arquivo. */
   imagem: string;
   /** Imagem alternativa pro desktop (formato paisagem). Se não tiver,
    * usa a mesma foto do celular, só que numa caixa mais baixa e larga. */
   imagemDesktop?: string;
+  /** Vídeo do banner (hospedado no Vercel Blob — não cabe no Firestore
+   * como base64). Quando tem, toca mudo/em loop no lugar da imagem, nas
+   * duas telas. */
+  videoUrl?: string;
   titulo?: string;
   /** Linha curta abaixo do título, no estilo dos carrosséis de vitrine. */
   descricao?: string;
