@@ -72,7 +72,11 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
 
         {tamanhoLabel && <p className="text-xs text-ink/50">{tamanhoLabel}</p>}
 
-        <div className="mt-auto flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pt-4">
+        {/* Preço sempre numa linha própria, botões embaixo — com preço +
+            2 botões (WhatsApp + Ver produto), colocar tudo lado a lado
+            ficava apertado nos cards mais estreitos (carrossel de 280px),
+            mesmo em telas largas. */}
+        <div className="mt-auto flex flex-col gap-2 pt-2 sm:gap-2.5 sm:pt-4">
           <div className="leading-tight">
             {produto.precoPromocional ? (
               <>
@@ -98,7 +102,7 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
             )}
             <Link
               href={`/capacetes/${produto.slug}`}
-              className="btn-blue flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-white sm:flex-none sm:px-5 sm:py-2.5 sm:text-sm"
+              className="btn-blue flex flex-1 items-center justify-center whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-white sm:py-2.5 sm:text-sm"
             >
               Ver produto
             </Link>
