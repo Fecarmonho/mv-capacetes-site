@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Categoria, Marca } from "@/lib/types";
+import { Marca } from "@/lib/types";
 
 const ORDENACOES = [
   { value: "recentes", label: "Mais recentes" },
@@ -12,12 +12,10 @@ const ORDENACOES = [
 ];
 
 export default function ProductFilters({
-  categorias,
   marcas,
   tamanhos,
   cores,
 }: {
-  categorias: Categoria[];
   marcas: Marca[];
   tamanhos: string[];
   cores: string[];
@@ -73,16 +71,6 @@ export default function ProductFilters({
           <option value="">Todas</option>
           {marcas.map((m) => (
             <option key={m.slug} value={m.nome}>{m.nome}</option>
-          ))}
-        </select>
-      </label>
-
-      <label className="text-sm">
-        <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-ink/50">Categoria</span>
-        <select name="categoria" defaultValue={valor("categoria")} className="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-          <option value="">Todas</option>
-          {categorias.map((c) => (
-            <option key={c.slug} value={c.slug}>{c.nome}</option>
           ))}
         </select>
       </label>

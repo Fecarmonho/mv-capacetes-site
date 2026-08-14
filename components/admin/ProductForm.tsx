@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Produto, VarianteProduto, FotoProduto, Categoria, Marca, MOTIVOS_ENTRADA } from "@/lib/types";
+import { Produto, VarianteProduto, FotoProduto, Marca, MOTIVOS_ENTRADA } from "@/lib/types";
 import { slugify } from "@/lib/slug";
 import { processarFoto } from "@/lib/image-compress";
 import { uid } from "@/lib/uid";
@@ -17,13 +17,11 @@ export default function ProductForm({
   initialProduto,
   initialVariantes = [],
   initialFotosExtras = [],
-  categorias,
   marcas,
 }: {
   initialProduto?: Produto;
   initialVariantes?: VarianteProduto[];
   initialFotosExtras?: FotoProduto[];
-  categorias: Categoria[];
   marcas: Marca[];
 }) {
   const router = useRouter();
@@ -37,7 +35,6 @@ export default function ProductForm({
       tipo: "novo",
       marca: marcas[0]?.nome ?? "",
       modelo: "",
-      categoria: categorias[0]?.slug ?? "",
       cor: "",
       tamanho: "",
       preco: 0,
@@ -199,7 +196,7 @@ export default function ProductForm({
         throw new Error(body.error ?? "Não foi possível salvar o produto.");
       }
 
-      router.push("/admin/produtos");
+      router.push("/admin/estoque");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao salvar.");
@@ -240,14 +237,6 @@ export default function ProductForm({
           <label className={labelClass}>
             Modelo
             <input required value={form.modelo} onChange={(e) => update("modelo", e.target.value)} className={inputClass} />
-          </label>
-          <label className={labelClass}>
-            Categoria
-            <select value={form.categoria} onChange={(e) => update("categoria", e.target.value)} className={inputClass}>
-              {categorias.map((c) => (
-                <option key={c.slug} value={c.slug}>{c.nome}</option>
-              ))}
-            </select>
           </label>
           <label className={labelClass}>
             Status
@@ -476,7 +465,7 @@ export default function ProductForm({
         <button type="submit" disabled={saving || enviandoFoto} className="btn-blue rounded-full px-6 py-3 font-display font-bold text-white disabled:opacity-60">
           {saving ? "Salvando..." : isEditing ? "Salvar alterações" : "Adicionar produto"}
         </button>
-        <button type="button" onClick={() => router.push("/admin/produtos")} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-semibold text-ink/70 hover:border-ink/30">
+        <button type="button" onClick={() => router.push("/admin/estoque")} className="rounded-full border border-ink/15 px-6 py-3 text-sm font-semibold text-ink/70 hover:border-ink/30">
           Cancelar
         </button>
       </div>

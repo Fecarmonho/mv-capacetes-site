@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getAllProdutos } from "@/lib/produtos-db";
 import { getVariantesByProdutos } from "@/lib/variantes-db";
-import { getAllCategorias } from "@/lib/categorias-db";
 import { getAllMarcas } from "@/lib/marcas-db";
 import { getBannersAtivos } from "@/lib/banners-db";
 import { getConfiguracoes } from "@/lib/config-db";
@@ -14,9 +13,8 @@ import { Produto } from "@/lib/types";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [todosProdutos, categorias, marcas, banners, config] = await Promise.all([
+  const [todosProdutos, marcas, banners, config] = await Promise.all([
     getAllProdutos(),
-    getAllCategorias(),
     getAllMarcas(),
     getBannersAtivos(),
     getConfiguracoes(),
@@ -33,15 +31,13 @@ export default async function HomePage() {
     return lista.map((produto) => ({ produto, variantes: variantesPorProduto.get(produto.slug) }));
   }
 
-  const categoriasComEstoque = categorias
-    .map((c) => ({ ...c, total: produtos.filter((p) => p.categoria === c.slug).length }))
-    .filter((c) => c.total > 0);
-
-  // Só entra no destaque de marcas quem realmente tem capacete disponível
-  // agora — deixa de aparecer sozinho quando o estoque zera.
-  const marcasComEstoque = marcas.filter((m) =>
-    produtos.some((p) => p.marca === m.nome && p.quantidadeEstoque > 0 && p.status === "ativo")
-  );
+  // Marcas separadas por condição — o toggle "Compre por marca" só mostra
+  // quem realmente tem capacete daquele tipo disponível agora (se não tiver
+  // nenhum usado cadastrado, por exemplo, a lista de "Usados" fica vazia).
+  const marcasPorTipo = {
+    novo: marcas.filter((m) => produtos.some((p) => p.marca === m.nome && p.tipo === "novo" && p.quantidadeEstoque > 0 && p.status === "ativo")),
+    usado: marcas.filter((m) => produtos.some((p) => p.marca === m.nome && p.tipo === "usado" && p.quantidadeEstoque > 0 && p.status === "ativo")),
+  };
 
   return (
     <main>
@@ -52,33 +48,7 @@ export default async function HomePage() {
 
       {/* ── COMPRE POR MARCA (logo abaixo do carrossel: escolhe novo/usado
           e a marca, direto pro catálogo já filtrado) ────────────────── */}
-      <CompreMarca marcas={marcasComEstoque} />
-
-      {/* ── CATEGORIAS ───────────────────────────────────── */}
-      {categoriasComEstoque.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-14">
-          <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">Categorias</h2>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-            {categoriasComEstoque.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/capacetes?categoria=${c.slug}`}
-                className="group flex flex-col items-center justify-center gap-2 rounded-2xl border border-ink/8 bg-white p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
-              >
-                <span className="font-display text-base font-bold text-ink group-hover:text-blue">{c.nome}</span>
-                <span className="text-xs text-ink/40">{c.total} capacete{c.total > 1 ? "s" : ""}</span>
-              </Link>
-            ))}
-            <Link
-              href="/capacetes?tipo=usado"
-              className="group flex flex-col items-center justify-center gap-2 rounded-2xl border border-steel/30 bg-steel/10 p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
-            >
-              <span className="font-display text-base font-bold text-ink">Usados</span>
-              <span className="text-xs text-ink/40">{usados.length} capacete{usados.length !== 1 ? "s" : ""}</span>
-            </Link>
-          </div>
-        </section>
-      )}
+      <CompreMarca marcasPorTipo={marcasPorTipo} />
 
       {/* ── DESTAQUES ────────────────────────────────────── */}
       {destaques.length > 0 && (

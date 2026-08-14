@@ -1,4 +1,4 @@
-// Popula o Firestore com categorias, marcas e produtos fictícios pra
+// Popula o Firestore com marcas e produtos fictícios pra
 // visualizar o site/admin durante o desenvolvimento. Troque por produtos
 // reais direto pelo painel quando for pra produção — nada aqui inventa
 // dados da empresa (WhatsApp, endereço etc.), só catálogo de exemplo.
@@ -20,13 +20,6 @@ db.settings({ ignoreUndefinedProperties: true });
 
 const agora = new Date().toISOString();
 
-const categorias = [
-  { slug: "fechados", nome: "Fechados", ordem: 1 },
-  { slug: "escamoteaveis", nome: "Escamoteáveis", ordem: 2 },
-  { slug: "abertos", nome: "Abertos", ordem: 3 },
-  { slug: "off-road", nome: "Off-road", ordem: 4 },
-];
-
 const marcas = [
   { slug: "ls2", nome: "LS2" },
   { slug: "pro-tork", nome: "Pro Tork" },
@@ -42,7 +35,6 @@ const produtos = [
     tipo: "novo",
     marca: "LS2",
     modelo: "FF353 Rapid",
-    categoria: "fechados",
     cor: "Preto fosco",
     preco: 499.9,
     precoPromocional: 429.9,
@@ -70,7 +62,6 @@ const produtos = [
     tipo: "novo",
     marca: "Norisk",
     modelo: "Atomic",
-    categoria: "escamoteaveis",
     cor: "Grafite",
     preco: 649.9,
     quantidadeEstoque: 0,
@@ -95,7 +86,6 @@ const produtos = [
     tipo: "usado",
     marca: "Pro Tork",
     modelo: "Evolution",
-    categoria: "abertos",
     cor: "Vermelho",
     preco: 189.9,
     quantidadeEstoque: 1,
@@ -118,9 +108,6 @@ const produtos = [
 async function seed() {
   const batch = db.batch();
 
-  for (const categoria of categorias) {
-    batch.set(db.collection("categorias").doc(categoria.slug), categoria);
-  }
   for (const marca of marcas) {
     batch.set(db.collection("marcas").doc(marca.slug), marca);
   }
@@ -139,7 +126,7 @@ async function seed() {
   }
 
   await batch.commit();
-  console.log(`Seed concluído: ${categorias.length} categorias, ${marcas.length} marcas, ${produtos.length} produtos.`);
+  console.log(`Seed concluído: ${marcas.length} marcas, ${produtos.length} produtos.`);
 }
 
 seed().catch((err) => {

@@ -51,7 +51,7 @@ export default async function AdminDashboardPage() {
         <div className="rounded-2xl border border-ink/8 bg-white p-5 shadow-card">
           <div className="mb-4 flex items-center justify-between">
             <p className="font-display text-base font-bold text-ink">Cadastrados recentemente</p>
-            <Link href="/admin/produtos" className="text-xs font-semibold text-blue">Ver todos</Link>
+            <Link href="/admin/estoque" className="text-xs font-semibold text-blue">Ver todos</Link>
           </div>
           {recentes.length === 0 ? (
             <p className="text-sm text-ink/40">Nenhum produto cadastrado ainda.</p>

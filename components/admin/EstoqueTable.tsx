@@ -5,6 +5,11 @@ import Link from "next/link";
 import { Produto, VarianteProduto } from "@/lib/types";
 import StatusEstoqueBadge from "@/components/admin/StatusEstoqueBadge";
 import MovimentacaoModal, { AlvoMovimentacao } from "@/components/admin/MovimentacaoModal";
+import DeleteProductButton from "@/components/admin/DeleteProductButton";
+
+function formatBRL(valor: number) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
 
 export default function EstoqueTable({
   produtos,
@@ -46,8 +51,13 @@ export default function EstoqueTable({
                   </button>
                 )}
                 <div>
-                  <p className="font-medium text-ink">{p.nome}</p>
-                  <p className="text-xs text-ink/40">{p.marca} · SKU {p.sku}</p>
+                  <div className="flex items-center gap-2">
+                    <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase ${p.tipo === "novo" ? "badge-novo" : "badge-usado"}`}>
+                      {p.tipo}
+                    </span>
+                    <p className="font-medium text-ink">{p.nome}</p>
+                  </div>
+                  <p className="text-xs text-ink/40">{p.marca} · SKU {p.sku} · {formatBRL(p.precoPromocional ?? p.preco)}</p>
                 </div>
               </div>
 
@@ -74,6 +84,10 @@ export default function EstoqueTable({
                     </button>
                   </>
                 )}
+                <Link href={`/admin/produtos/${p.slug}`} className="text-xs font-semibold text-ink/60 hover:text-blue">
+                  Editar
+                </Link>
+                <DeleteProductButton slug={p.slug} nome={p.nome} />
               </div>
             </div>
 

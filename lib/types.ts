@@ -10,7 +10,6 @@ export interface Produto {
   tipo: TipoProduto;
   marca: string;
   modelo: string;
-  categoria: string;
   cor: string;
   /** Só usado quando o produto não tem variantes de tamanho (ex: usado,
    * unidade única) — quando há variantes, cada uma carrega o seu tamanho. */
@@ -65,12 +64,6 @@ export interface MovimentacaoEstoque {
   usuarioEmail: string;
   saldoAnterior: number;
   saldoNovo: number;
-}
-
-export interface Categoria {
-  slug: string;
-  nome: string;
-  ordem: number;
 }
 
 export interface Marca {

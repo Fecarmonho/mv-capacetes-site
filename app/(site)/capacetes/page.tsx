@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { getAllProdutos } from "@/lib/produtos-db";
 import { getVariantesByProdutos } from "@/lib/variantes-db";
-import { getAllCategorias } from "@/lib/categorias-db";
 import { getAllMarcas } from "@/lib/marcas-db";
 import ProductFilters from "@/components/ProductFilters";
 import ProductCard from "@/components/ProductCard";
@@ -18,9 +17,8 @@ export default async function CatalogoPage({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
-  const [todosProdutos, categorias, marcas] = await Promise.all([
+  const [todosProdutos, marcas] = await Promise.all([
     getAllProdutos(),
-    getAllCategorias(),
     getAllMarcas(),
   ]);
 
@@ -41,7 +39,6 @@ export default async function CatalogoPage({
 
   if (searchParams.tipo) produtos = produtos.filter((p) => p.tipo === searchParams.tipo);
   if (searchParams.marca) produtos = produtos.filter((p) => p.marca === searchParams.marca);
-  if (searchParams.categoria) produtos = produtos.filter((p) => p.categoria === searchParams.categoria);
   if (searchParams.cor) produtos = produtos.filter((p) => p.cor === searchParams.cor);
   if (searchParams.tamanho) {
     produtos = produtos.filter((p) => {
@@ -84,7 +81,7 @@ export default async function CatalogoPage({
       </div>
 
       <div className="flex flex-col gap-8 md:flex-row">
-        <ProductFilters categorias={categorias} marcas={marcas} tamanhos={tamanhos} cores={cores} />
+        <ProductFilters marcas={marcas} tamanhos={tamanhos} cores={cores} />
 
         <div className="flex-1">
           {produtos.length === 0 ? (

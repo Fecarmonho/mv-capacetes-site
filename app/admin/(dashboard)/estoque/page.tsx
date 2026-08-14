@@ -22,14 +22,19 @@ export default async function AdminEstoquePage() {
             🟡 {estoqueBaixo} com estoque baixo · 🔴 {semEstoque} sem estoque
           </p>
         </div>
-        <Link href="/admin/estoque/historico" className="rounded-full border border-ink/15 px-5 py-2.5 text-center text-sm font-semibold text-ink/70 hover:border-ink/30">
-          Ver histórico
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/admin/estoque/historico" className="rounded-full border border-ink/15 px-5 py-2.5 text-center text-sm font-semibold text-ink/70 hover:border-ink/30">
+            Ver histórico
+          </Link>
+          <Link href="/admin/produtos/novo" className="btn-blue rounded-full px-5 py-2.5 text-center text-sm font-bold text-white">
+            + Adicionar produto
+          </Link>
+        </div>
       </div>
 
       {produtos.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-ink/15 bg-white p-8 text-center text-sm text-ink/50">
-          Nenhum produto cadastrado ainda.
+          Nenhum produto ainda. Clique em &quot;Adicionar produto&quot; pra começar.
         </p>
       ) : (
         <EstoqueTable produtos={produtos} variantesPorProduto={variantesPorProduto} />
