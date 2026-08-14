@@ -9,6 +9,7 @@ import ProductCarousel from "@/components/ProductCarousel";
 import BannerCarousel from "@/components/BannerCarousel";
 import MarqueeStrip from "@/components/MarqueeStrip";
 import CompreMarca from "@/components/CompreMarca";
+import MarcasDestaque from "@/components/MarcasDestaque";
 import { Produto } from "@/lib/types";
 
 export const revalidate = 60;
@@ -90,6 +91,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── MARCAS EM DESTAQUE (ilustrativa, sem link) ──────────────── */}
+      <MarcasDestaque marcas={marcas} />
 
       {/* ── CTA FINAL ────────────────────────────────────── */}
       <section className="hero-night relative overflow-hidden py-16 text-center text-white">
