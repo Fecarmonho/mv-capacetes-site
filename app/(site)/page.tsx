@@ -32,9 +32,6 @@ export default async function HomePage() {
     .map((s) => ({ ...s, produtos: s.produtoSlugs.map((slug) => produtosPorSlug.get(slug)).filter((p): p is Produto => Boolean(p)) }))
     .filter((s) => s.produtos.length > 0);
 
-  const novos = produtos.filter((p) => p.tipo === "novo").slice(0, 10);
-  const usados = produtos.filter((p) => p.tipo === "usado").slice(0, 10);
-
   function comVariantes(lista: Produto[]) {
     return lista.map((produto) => ({ produto, variantes: variantesPorProduto.get(produto.slug) }));
   }
@@ -67,33 +64,6 @@ export default async function HomePage() {
           </div>
         </section>
       ))}
-
-      {/* ── NOVOS ────────────────────────────────────────── */}
-      {novos.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-10">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">Capacetes Novos</h2>
-            <Link href="/capacetes?tipo=novo" className="text-sm font-semibold text-blue hover:underline">Ver todos</Link>
-          </div>
-          <ProductCarousel itens={comVariantes(novos)} />
-        </section>
-      )}
-
-      {/* ── USADOS ───────────────────────────────────────── */}
-      {usados.length > 0 && (
-        <section className="border-y border-ink/5 bg-steel/[0.06] py-10">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-ink/40">Selecionados e revisados</p>
-                <h2 className="mt-1 font-display text-2xl font-bold text-ink sm:text-3xl">Capacetes Usados</h2>
-              </div>
-              <Link href="/capacetes?tipo=usado" className="text-sm font-semibold text-blue hover:underline">Ver todos</Link>
-            </div>
-            <ProductCarousel itens={comVariantes(usados)} />
-          </div>
-        </section>
-      )}
 
       {/* ── QUEM SOMOS ───────────────────────────────────── */}
       {config.quemSomosHistoria && (
