@@ -9,10 +9,19 @@
  * 1MB, então reduz a qualidade automaticamente se a foto grande ficar
  * perto disso.
  */
-// Formatos que podem ter transparência de verdade (ex: foto com fundo
-// removido). PNG não tem "qualidade" ajustável — o corte de tamanho vem
-// só de reduzir o lado máximo.
-const FORMATOS_COM_ALPHA = ["image/png", "image/webp", "image/gif"];
+/** Olha o canal alpha de verdade (não só a extensão do arquivo) — um PNG
+ * comum, sem fundo removido, não tem pixel transparente nenhum, e nesse
+ * caso salvar como PNG só deixaria o arquivo bem mais pesado à toa (PNG
+ * não comprime tão bem quanto JPEG pra foto comum). Só vale a pena o PNG
+ * (maior, mas com transparência de verdade) quando a foto realmente tem
+ * área transparente. */
+function temTransparenciaReal(ctx: CanvasRenderingContext2D, width: number, height: number): boolean {
+  const { data } = ctx.getImageData(0, 0, width, height);
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] < 255) return true;
+  }
+  return false;
+}
 
 function comprimir(file: File, maxLado: number, qualidade: number): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -35,19 +44,19 @@ function comprimir(file: File, maxLado: number, qualidade: number): Promise<stri
         canvas.height = height;
         const ctx = canvas.getContext("2d");
         if (!ctx) return reject(new Error("Não foi possível processar a imagem."));
-
-        const temAlpha = FORMATOS_COM_ALPHA.includes(file.type);
-        // Sem isso, uma foto com fundo removido (transparente) vira preta:
-        // canvas começa com pixel (0,0,0,0) e, ao exportar como JPEG (que
-        // não tem canal alpha), a área transparente é achatada em preto
-        // puro. Com fundo real (JPEG de câmera etc.) isso nunca acontece,
-        // então só preenche de branco quando o formato NÃO suporta alpha.
-        if (!temAlpha) {
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, width, height);
-        }
         ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL(temAlpha ? "image/png" : "image/jpeg", qualidade));
+
+        if (temTransparenciaReal(ctx, width, height)) {
+          resolve(canvas.toDataURL("image/png"));
+          return;
+        }
+        // Sem transparência real, não tem o que preservar — redesenha
+        // com fundo branco (evita qualquer pixel semitransparente virar
+        // preto) e salva como JPEG, bem mais leve.
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", qualidade));
       };
       img.onerror = () => reject(new Error("Não foi possível ler essa imagem."));
       img.src = reader.result as string;
