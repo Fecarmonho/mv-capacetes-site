@@ -111,7 +111,13 @@ export default function BannerCard({
     <div className="flex flex-col gap-3 rounded-2xl border border-ink/8 bg-white p-4 shadow-card sm:flex-row sm:items-center">
       <div className="flex shrink-0 gap-2">
         <div className="flex flex-col items-center gap-1">
-          <img src={banner.imagem} alt={banner.titulo ?? ""} className="h-20 w-[60px] rounded-lg object-cover" />
+          {banner.imagem ? (
+            <img src={banner.imagem} alt={banner.titulo ?? ""} className="h-20 w-[60px] rounded-lg object-cover" />
+          ) : (
+            <div className="flex h-20 w-[60px] items-center justify-center rounded-lg border border-dashed border-ink/15 text-center text-[9px] text-ink/30">
+              Sem foto
+            </div>
+          )}
           <label className="cursor-pointer text-[10px] font-semibold text-blue hover:underline">
             Celular
             <input type="file" accept="image/*" onChange={(e) => trocarImagem(e, "imagem")} disabled={salvando} className="hidden" />

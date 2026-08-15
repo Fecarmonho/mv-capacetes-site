@@ -75,8 +75,8 @@ export default function BannerForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    if (!imagem) {
-      setError("Envie a imagem do banner.");
+    if (!imagem && !videoUrl) {
+      setError("Envie a imagem ou o vídeo do banner.");
       return;
     }
 
@@ -86,7 +86,7 @@ export default function BannerForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          imagem,
+          imagem: imagem || undefined,
           imagemDesktop: imagemDesktop || undefined,
           videoUrl: videoUrl || undefined,
           titulo: titulo || undefined,

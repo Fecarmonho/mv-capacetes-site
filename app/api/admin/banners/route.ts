@@ -8,7 +8,9 @@ export async function POST(request: NextRequest) {
   if (!session) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
 
   const banner = (await request.json()) as Omit<Banner, "id" | "ordem">;
-  if (!banner.imagem) return NextResponse.json({ error: "Envie uma imagem." }, { status: 400 });
+  if (!banner.imagem && !banner.videoUrl) {
+    return NextResponse.json({ error: "Envie uma imagem ou um vídeo." }, { status: 400 });
+  }
 
   const existentes = await getAllBanners();
   await createBanner({ ...banner, ordem: existentes.length });

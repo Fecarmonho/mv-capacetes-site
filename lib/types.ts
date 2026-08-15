@@ -93,10 +93,9 @@ export interface SecaoHome {
 
 export interface Banner {
   id: string;
-  /** Imagem do celular (proporção 3:4) — obrigatória mesmo em banner de
-   * vídeo, é o que aparece enquanto o vídeo carrega e se o navegador não
-   * conseguir tocar o arquivo. */
-  imagem: string;
+  /** Imagem do celular (proporção 3:4). Obrigatória quando não tem vídeo;
+   * com vídeo, é opcional (o vídeo já cobre as duas telas sozinho). */
+  imagem?: string;
   /** Imagem alternativa pro desktop (formato paisagem). Se não tiver,
    * usa a mesma foto do celular, só que numa caixa mais baixa e larga. */
   imagemDesktop?: string;

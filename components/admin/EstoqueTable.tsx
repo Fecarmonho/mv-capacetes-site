@@ -49,7 +49,7 @@ export default function EstoqueTable({
         return (
           <div key={p.slug} className="rounded-2xl border border-ink/8 bg-white shadow-card">
             <div className="flex flex-wrap items-center justify-between gap-3 p-4">
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 flex-wrap items-center gap-3">
                 {temVariantes && (
                   <button
                     onClick={() => setExpandido((prev) => ({ ...prev, [p.slug]: !prev[p.slug] }))}
@@ -60,7 +60,7 @@ export default function EstoqueTable({
                   </button>
                 )}
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase ${p.tipo === "novo" ? "badge-novo" : "badge-usado"}`}>
                       {p.tipo}
                     </span>
@@ -71,7 +71,7 @@ export default function EstoqueTable({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <StatusEstoqueBadge estoque={p.quantidadeEstoque} minimo={p.quantidadeMinima} />
                 <span className="text-sm font-semibold text-ink">{p.quantidadeEstoque} un.</span>
                 <Link href={`/admin/estoque/historico?produto=${p.slug}`} className="text-xs font-semibold text-ink/40 hover:text-ink/70">
@@ -104,9 +104,9 @@ export default function EstoqueTable({
             {temVariantes && expandido[p.slug] && (
               <div className="divide-y divide-ink/5 border-t border-ink/5">
                 {variantes.map((v) => (
-                  <div key={v.id} className="flex items-center justify-between gap-3 px-4 py-3 pl-10">
+                  <div key={v.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 pl-10">
                     <span className="text-sm text-ink/70">Tamanho {v.tamanho}</span>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <StatusEstoqueBadge estoque={v.estoque} minimo={p.quantidadeMinima} />
                       <span className="text-sm font-semibold text-ink">{v.estoque} un.</span>
                       <button

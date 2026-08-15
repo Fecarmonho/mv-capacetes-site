@@ -4,6 +4,7 @@ import { getProdutoBySlug } from "@/lib/produtos-db";
 import { getVariantesByProduto } from "@/lib/variantes-db";
 import { getFotosExtras } from "@/lib/fotos-db";
 import ProductGallery from "@/components/ProductGallery";
+import VoltarButton from "@/components/VoltarButton";
 
 export const revalidate = 60;
 
@@ -33,6 +34,7 @@ export default async function ProdutoPage({ params }: { params: { slug: string }
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
+      <VoltarButton />
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         <ProductGallery fotos={fotos} capaFallback={produto.imagemUrl} nome={produto.nome} />
 
