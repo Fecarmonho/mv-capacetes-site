@@ -16,34 +16,36 @@ export default async function AdminUsuariosPage() {
       <UsuarioForm />
 
       <div className="mt-6 overflow-hidden rounded-2xl border border-ink/8 bg-white shadow-card">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-ink/8 text-xs uppercase tracking-wide text-ink/40">
-            <tr>
-              <th className="px-4 py-3 sm:px-6">Nome</th>
-              <th className="px-4 py-3 sm:px-6">Email</th>
-              <th className="px-4 py-3 text-right sm:px-6">Ações</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-ink/8">
-            {admins.map((admin) => {
-              const vocêMesmo = admin.uid === session?.uid;
-              return (
-                <tr key={admin.uid}>
-                  <td className="px-4 py-3 font-semibold text-ink sm:px-6">
-                    {admin.name}
-                    {vocêMesmo && <span className="ml-2 text-xs font-normal text-ink/40">(você)</span>}
-                  </td>
-                  <td className="px-4 py-3 text-ink/60 sm:px-6">{admin.email}</td>
-                  <td className="px-4 py-3 text-right sm:px-6">
-                    {!vocêMesmo && admins.length > 1 && (
-                      <DeleteButton url={`/api/admin/usuarios/${admin.uid}`} confirmMessage={`Remover o acesso de "${admin.name}"?`} />
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[480px] text-left text-sm">
+            <thead className="border-b border-ink/8 text-xs uppercase tracking-wide text-ink/40">
+              <tr>
+                <th className="px-4 py-3 sm:px-6">Nome</th>
+                <th className="px-4 py-3 sm:px-6">Email</th>
+                <th className="px-4 py-3 text-right sm:px-6">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink/8">
+              {admins.map((admin) => {
+                const vocêMesmo = admin.uid === session?.uid;
+                return (
+                  <tr key={admin.uid}>
+                    <td className="px-4 py-3 font-semibold text-ink sm:px-6">
+                      {admin.name}
+                      {vocêMesmo && <span className="ml-2 text-xs font-normal text-ink/40">(você)</span>}
+                    </td>
+                    <td className="px-4 py-3 text-ink/60 sm:px-6">{admin.email}</td>
+                    <td className="px-4 py-3 text-right sm:px-6">
+                      {!vocêMesmo && admins.length > 1 && (
+                        <DeleteButton url={`/api/admin/usuarios/${admin.uid}`} confirmMessage={`Remover o acesso de "${admin.name}"?`} />
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

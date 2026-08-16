@@ -30,7 +30,7 @@ function StatCard({
   cor: keyof typeof CORES;
 }) {
   return (
-    <div className={`rounded-2xl bg-gradient-to-br ${CORES[cor]} p-5 text-white shadow-card`}>
+    <div className={`flex h-full flex-col justify-center rounded-2xl bg-gradient-to-br ${CORES[cor]} p-5 text-white shadow-card`}>
       <p className="text-xs font-semibold uppercase tracking-wide text-white/70">{label}</p>
       <p className="mt-2 font-display text-3xl font-bold">{value}</p>
       {hint && <p className="mt-1 text-xs text-white/70">{hint}</p>}

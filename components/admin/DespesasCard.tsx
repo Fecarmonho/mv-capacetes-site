@@ -37,7 +37,7 @@ export default function DespesasCard({ valorInicial }: { valorInicial: number })
   }
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 p-5 text-white shadow-card">
+    <div className="flex h-full flex-col justify-center rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 p-5 text-white shadow-card">
       <p className="text-xs font-semibold uppercase tracking-wide text-white/70">Despesas do mês</p>
       {editando ? (
         <div className="mt-2 flex items-center gap-2">
