@@ -59,7 +59,7 @@ export default function DespesasCard({ valorInicial }: { valorInicial: number })
         </div>
       ) : (
         <button onClick={abrirEdicao} className="mt-2 block text-left">
-          <span className="font-display text-3xl font-bold">{formatBRL(valorInicial)}</span>
+          <span className="font-display text-2xl font-bold sm:text-3xl">{formatBRL(valorInicial)}</span>
           <span className="ml-2 text-xs text-white/70">editar</span>
         </button>
       )}
