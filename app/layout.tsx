@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Rajdhani, Anton, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -33,6 +33,11 @@ export const metadata: Metadata = {
   },
   description:
     "Capacetes de moto novos e usados, com procedência e curadoria. Confira nosso catálogo e fale direto com a loja.",
+  manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2B5CE0",
 };
 
 export default function RootLayout({
