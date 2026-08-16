@@ -72,7 +72,7 @@ export default function EstoqueTable({
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                <StatusEstoqueBadge estoque={p.quantidadeEstoque} minimo={p.quantidadeMinima} />
+                <StatusEstoqueBadge estoque={p.quantidadeEstoque} />
                 <span className="text-sm font-semibold text-ink">{p.quantidadeEstoque} un.</span>
                 <Link href={`/admin/estoque/historico?produto=${p.slug}`} className="text-xs font-semibold text-ink/40 hover:text-ink/70">
                   Histórico
@@ -107,7 +107,7 @@ export default function EstoqueTable({
                   <div key={v.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 pl-10">
                     <span className="text-sm text-ink/70">Tamanho {v.tamanho}</span>
                     <div className="flex flex-wrap items-center gap-3">
-                      <StatusEstoqueBadge estoque={v.estoque} minimo={p.quantidadeMinima} />
+                      <StatusEstoqueBadge estoque={v.estoque} />
                       <span className="text-sm font-semibold text-ink">{v.estoque} un.</span>
                       <button
                         onClick={() =>

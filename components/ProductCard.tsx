@@ -26,7 +26,7 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
               <img
                 src={produto.imagemUrl}
                 alt={produto.nome}
-                className="h-full w-full object-contain p-4 transition-opacity duration-300 sm:p-6"
+                className="h-full w-full object-contain p-2 transition-opacity duration-300 sm:p-3"
               />
               {/* Segunda foto por cima, escondida — aparece com o mouse em
                   cima do card, dando a impressão do capacete girando (mesmo
@@ -35,7 +35,7 @@ export default function ProductCard({ produto, variantes = [] }: { produto: Prod
                 <img
                   src={produto.imagemHoverUrl}
                   alt=""
-                  className="absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-6"
+                  className="absolute inset-0 h-full w-full object-contain p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-3"
                 />
               )}
             </>

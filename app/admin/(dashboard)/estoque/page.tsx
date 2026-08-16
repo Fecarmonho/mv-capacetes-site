@@ -11,16 +11,13 @@ export default async function AdminEstoquePage() {
   const variantesPorProduto = Object.fromEntries(variantesMap);
 
   const semEstoque = produtos.filter((p) => p.quantidadeEstoque === 0).length;
-  const estoqueBaixo = produtos.filter((p) => p.quantidadeEstoque > 0 && p.quantidadeEstoque <= p.quantidadeMinima).length;
 
   return (
     <div>
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold text-ink">Estoque</h1>
-          <p className="mt-1 text-sm text-ink/50">
-            🟡 {estoqueBaixo} com estoque baixo · 🔴 {semEstoque} sem estoque
-          </p>
+          <p className="mt-1 text-sm text-ink/50">🔴 {semEstoque} sem estoque</p>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/admin/estoque/historico" className="rounded-full border border-ink/15 px-5 py-2.5 text-center text-sm font-semibold text-ink/70 hover:border-ink/30">

@@ -44,7 +44,6 @@ export default function ProductForm({
       preco: 0,
       precoPromocional: undefined,
       quantidadeEstoque: 0,
-      quantidadeMinima: 3,
       status: "ativo",
       descricao: "",
       caracteristicas: [],
@@ -342,7 +341,7 @@ export default function ProductForm({
             )}
           </div>
         ) : (
-          <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <label className={labelClass}>
               Tamanho
               <input value={form.tamanho ?? ""} onChange={(e) => update("tamanho", e.target.value)} className={inputClass} placeholder="Ex: 58" />
@@ -358,17 +357,7 @@ export default function ProductForm({
                 className={`${inputClass} disabled:bg-paper disabled:text-ink/40`}
               />
             </label>
-            <label className={labelClass}>
-              Estoque mínimo
-              <input type="number" min={0} value={form.quantidadeMinima} onChange={(e) => update("quantidadeMinima", parseInt(e.target.value) || 0)} className={inputClass} />
-            </label>
           </div>
-        )}
-        {temVariantes && (
-          <label className={`${labelClass} mt-4 max-w-[200px]`}>
-            Estoque mínimo (por tamanho)
-            <input type="number" min={0} value={form.quantidadeMinima} onChange={(e) => update("quantidadeMinima", parseInt(e.target.value) || 0)} className={inputClass} />
-          </label>
         )}
       </section>
 

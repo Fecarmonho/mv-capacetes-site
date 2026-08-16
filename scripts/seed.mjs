@@ -39,7 +39,6 @@ const produtos = [
     preco: 499.9,
     precoPromocional: 429.9,
     quantidadeEstoque: 0, // soma das variantes
-    quantidadeMinima: 3,
     status: "ativo",
     descricao:
       "Capacete fechado esportivo, viseira anti-risco e ventilação frontal/traseira.",
@@ -64,7 +63,6 @@ const produtos = [
     precoCompra: 420,
     preco: 649.9,
     quantidadeEstoque: 0,
-    quantidadeMinima: 2,
     status: "ativo",
     descricao: "Escamoteável com óculos solar interno e viseira selada contra vento.",
     caracteristicas: ["Óculos solar interno", "Viseira selada", "Certificado INMETRO"],
@@ -87,7 +85,6 @@ const produtos = [
     precoCompra: 120,
     preco: 189.9,
     quantidadeEstoque: 1,
-    quantidadeMinima: 1,
     status: "ativo",
     descricao: "Capacete aberto usado, revisado, sem trincas ou reparos.",
     caracteristicas: ["Viseira de brinde", "Sem odor", "Revisado antes da venda"],

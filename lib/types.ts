@@ -20,7 +20,6 @@ export interface Produto {
   preco: number;
   precoPromocional?: number;
   quantidadeEstoque: number;
-  quantidadeMinima: number;
   status: StatusProduto;
   descricao: string;
   caracteristicas: string[];
